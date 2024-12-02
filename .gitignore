@@ -1,0 +1,16 @@
+#use glob syntax
+syntax: glob
+
+__pycache__
+
+*.swp
+paper.aux
+paper.bbl
+paper.blg
+paper.log
+paper.pdf
+paper.toc
+paper.out
+paper.suppinfo
+paperNotes.bib
+

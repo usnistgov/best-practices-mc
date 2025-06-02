@@ -1154,12 +1154,14 @@ Particle transfers are conducted similarly to a simultaneous insertion in one do
 The total number of particles remains constant, as well as the volumes of both systems and the temperature.
 
 \begin{figure}
+\begin{centering}
 \includegraphics[width=6.5cm]{../figures/gibbs_particle.png}
 \caption{
 Gibbs ensemble transfer of the particle shown in blue from periodic domain $1$ to periodic domain $2$, and the reverse trial.
 The total number of particles remains constant.
 }
 \label{fig:gibbs_particle}
+\end{centering}
 \end{figure}
 
 Particle transfers between domains $1$ and $2$ in Gibbs ensemble MC proceed as follows.
@@ -1225,12 +1227,14 @@ Volume transfers are conducted similarly to a simultaneous expansion in one doma
 The total volume, $V=V_1+V_2$, remains constant, as well as the numbers of particles of each type in both systems and the temperature.
 
 \begin{figure}
+\begin{centering}
 \includegraphics[width=6.5cm]{../figures/gibbs_volume.png}
 \caption{
 Gibbs ensemble transfer of volume from periodic domain $1$ to periodic domain $2$, and the reverse trial.
 The total volume remains constant and the particle positions are scaled as described in Section~\ref{sec:lhs_dv}.
 }
 \label{fig:gibbs_volume}
+\end{centering}
 \end{figure}
 
 Volume transfers between domains $1$ and $2$ in Gibbs ensemble MC proceed as follows.
@@ -1318,6 +1322,18 @@ One example of insertion and deletion of particles of type $i$ with CB proceeds 
 An insertion or deletion trial is randomly chosen with equal probability.
 If a particle insertion is chosen, then the new position, $\mathbf{r}_n$, of a particle of type $i$ is chosen from ${c}$ random positions selected uniformly in the volume, $V$, with a relative probability of $\pi_{cn}$.
 If a particle deletion is chosen, then one of $N_i$ particles of type $i$ is chosen for removal.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=6.5cm]{../figures/muvt_cb.png}
+\caption{
+Multiple first bead configurational bias insertion and deletion considers randomly-generated positions for a newly inserted particle, shown by the dashed circles, in an existing fluid of particles, shown by the black circles.
+The most favorable position has the highest Rosenbluth probability of selection, which is shown in blue due to excluded volume overlap of the other red positions with the existing fluid.
+The deletion step does not consider other positions or particles for deletion, but to obey detailed balance, the Rosenbluth factor in the deletion step includes the existing position as well as other randomly-generated positions.
+}
+\label{fig:muvt_cb}
+\end{centering}
+\end{figure}
 
 The forward and reverse transition probabilities are summarized in Table~\ref{tab:lhs_ins_cb}.
 Because the insertion is chosen as the forward transition, deletions are chosen among $N_i+1$ particles, where $N_i$ is the number of particles of type $i$ as defined from the old microstate.

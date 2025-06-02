@@ -289,7 +289,7 @@ The ratio of $\pi$ is then simplified as,
 \label{eq:pi}
 \end{equation}
 by considering each of the three possibilities, $\chi < 1$, $\chi > 1$ and $\chi=1$, separately.
-While the Metropolis acceptance criterion is used throughout this article, other alternatives are possible while maintaining detailed balance.
+While the Metropolis acceptance criterion is used throughout this article, other alternatives are possible while maintaining detailed balance.\cite{barker_monte_1965}
 
 Eq.~\ref{eq:detailed_balance_first} may be rearranged to solve for the Metropolis acceptance probability using Eq.~\ref{eq:pi},
 \begin{equation}
@@ -521,9 +521,12 @@ Although Metropolis \textit{et. al} \cite{metropolis_equation_1953} used 50 \%, 
 
 An efficient implementation may have a displacement parameter, $\delta_i$, specifically tuned for each particle type, $i$.
 This could be important to improve sampling in cases where the particle sizes or interactions are different.
-In addition, particles are chosen from all mobile particles, $N_m$, for sampling efficiency.
-A possibly inefficient alternative would be to define separate trials that select among specific particle types.
-In that case, if there are more particles of one type than another, the species with fewer numbers would have a relatively larger probability of displacement.
+In addition, particles are chosen from all mobile particles, $N_m$.
+A possible alternative would be to define separate trials that select among specific particle types.
+In that case, if there are more particles of one type than another, the species with fewer numbers could have a relatively larger probability of displacement.
+The relative efficiency of this alternative approach compared to the one derived here is beyond the scope of this article.
+If the minor species is of more interest, the alternative could be more efficient.
+On the other hand, inefficiencies could arise if the minor species were caged in solvent that was not as well sampled.
 %Although these trials could be assigned different weights to correct this relative probability, such weights would need to be recomputed when the number of particles changes.
 
 The goal of particle-displacement trials is to give every particle an equal chance to move.
@@ -1120,6 +1123,7 @@ caption={Alternative algorithm for semi-$\mu VT$ MC of an ideal gas mixture usin
 In the Gibbs ensemble, separate domains are simulated for which chemical and mechanical equilibrium at constant temperature is established between them \cite{panagiotopoulos_direct_1987}, although chemical equilibrium is sufficient to enforce mechanical equilibrium \cite{panagiotopoulos_adsorption_1987}.
 For notational convenience, we will consider only two domains such that the total volume, $V=V_1+V_2$, is the sum of two volumes and the total number of particles of type $i$, $N_i$, is $N_{i1} + N_{i2}$.
 Volume changes require scaling, as described in Section \ref{sec:rhs_npt}, and the particle positions must be expressed in terms of the scaled coordinates.
+We do not consider constant-pressure Gibbs ensemble in this work \cite{panagiotopoulos_phase_1988}.
 Although recent studies show that Gibbs (and all other) ensemble simulations may utilize a shell particle \cite{hatch_theory_2024}, we consider only the application of a shell particle in the $NPT$ ensemble in this article.
 
 The probability of a microstate in the Gibbs ensemble is then given by \cite{panagiotopoulos_direct_1987, frenkel_understanding_2002, hatch_theory_2024},
@@ -1912,7 +1916,7 @@ If particle type $i$ and $j$ are identical, then $\delta_{ij}=1$.
 Otherwise, $\delta_{ij}=0$.
 Substituting Eq.~\ref{eq:rhs_muvt} into the first ratio in Eq.~\ref{eq:detailed_balance}, and using Table~\ref{tab:lhs_ins_avb} for the second ratio in Eq.~\ref{eq:detailed_balance}, results in
 \begin{equation}
-\chi = \frac{N_j}{N_j+\delta_{ij}}\left(\frac{v_{AV}z_i}{P_{\omega n}(N_i^{AV}+1)}\right) e^{-\beta\Delta U}.
+\chi = \frac{N_j}{N_j+\delta_{ij}}\left[\frac{v_{AV}z_i}{P_{\omega n}(N_i^{AV}+1)}\right] e^{-\beta\Delta U}.
 \label{eq:lhs_gc_avb_add}
 \end{equation}
 

@@ -2375,6 +2375,7 @@ This energy is referred to as the running total energy.
 However, round off errors at the limit of numerical precision cause the running total energy to be different from the total energy calculated based on the interactions of all the particles.
 This difference increases with the number of trials.
 It is recommended to infrequently compute the energy of the entire system and compare the total energy with the running total energy from each energy change.
+The total energy may also be compared and updated during trials which update all the particles, such as volume changes.
 If the relative differences are not within an acceptable tolerance based on machine precision and the magnitude of the total energy, then this is a clear indication there is a problem with the way that the change in energy was computed, and an error or warning should be made visible.
 If the relative difference is within an acceptable tolerance, the running total energy is then reset to the newly calculated value and the simulation continues.
 

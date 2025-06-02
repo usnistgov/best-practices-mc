@@ -1,10 +1,11 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
-
+basename = os.path.basename(__file__)[:-3]
 
 shift=6
 xyzs=[
@@ -71,4 +72,4 @@ for g in greens:
     plt.gca().add_patch(plt.Circle((g[0]+shift, g[1]),0.05, fc='blue'))
 plt.axis('scaled')
 plt.axis('off')
-plt.savefig('cavity.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

@@ -1,10 +1,11 @@
-
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 shift = -4
 plt.gca().add_patch(plt.Rectangle(xy=(-2+shift, -2), width=4, height=4, fc='none', ec='black', lw=2))
@@ -30,8 +31,7 @@ plt.gca().add_patch(plt.Circle((0.75+shift+1/2, 0.5),0.25, fc='red'))
 plt.gca().add_patch(plt.Circle((0.75+shift+np.sqrt(2)/4, 0.5-np.sqrt(2)/3),0.25, fc='red'))
 plt.gca().add_patch(plt.Circle((0.75+shift, 0.5),0.25, fc='red'))
 
-
 plt.axis('scaled')
 plt.axis('off')
 #plt.show()
-plt.savefig('cluster.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

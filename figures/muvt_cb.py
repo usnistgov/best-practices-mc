@@ -48,4 +48,4 @@ plt.text(0, -0.5, 'delete', horizontalalignment='center', verticalalignment='cen
 
 plt.axis('scaled')
 plt.axis('off')
-plt.savefig(basename+'.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

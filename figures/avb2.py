@@ -1,10 +1,11 @@
-
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 shift = -4
 plt.gca().add_patch(plt.Rectangle(xy=(-2+shift, -2), width=4, height=4, fc='none', ec='black', lw=2))
@@ -37,5 +38,4 @@ plt.text(-0.5+shift-0.9/np.sqrt(2), -0.5+0.9/np.sqrt(2), r'$v_{AV}$', horizontal
 plt.axis('scaled')
 plt.axis('off')
 #plt.show()
-plt.savefig('avb2.png', bbox_inches='tight', transparent=True, dpi=300)
-
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

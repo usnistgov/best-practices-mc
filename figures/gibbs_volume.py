@@ -1,9 +1,11 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 def vapor_box(x_shift, y_shift, scale):
     xyzs=[
@@ -49,4 +51,4 @@ plt.text(4, 0.5, '+', fontsize=28, horizontalalignment='center', verticalalignme
 liquid_box(4, -3, scale=(2-scale**2)**0.5)
 plt.axis('scaled')
 plt.axis('off')
-plt.savefig('gibbs_volume.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

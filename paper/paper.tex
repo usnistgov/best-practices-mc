@@ -245,7 +245,7 @@ Finally, implementation issues typically encountered in MC simulations are summa
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=8.5cm]{../figures/detailed_balance.png}
+\includegraphics[width=8.5cm]{../figures/detailed_balance.pdf}
 \caption{
 Probabilities for all possible transitions between two states, old and new, are illustrated.
 Proposed configurations and other possible transitions are shown with black dashed circles and arrows, respectively.
@@ -456,7 +456,7 @@ Thus,
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/lhs_nvt.png}
+\includegraphics[width=6.5cm]{../figures/lhs_nvt.pdf}
 \caption{
 Detailed balance is violated if the tunable displacement parameter, $\delta$, decreases.
 If the particle is displaced from the old position, $\mathbf{r}_o$, within $\delta_o$ in each dimension, then the particle may not be able to return to $\mathbf{r}_o$ in the reverse trial if the next displacement is within $\delta_n<\delta_o$.
@@ -670,7 +670,7 @@ This trial is summarized in Table~\ref{tab:lhs_dv}.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=8.5cm]{../figures/npt.png}
+\includegraphics[width=8.5cm]{../figures/npt.pdf}
 \caption{
 Detailed balance is violated if the particle positions are not scaled with the volume and one of the particles is wrapped across periodic boundaries.
 On the left, the top-most particle is wrapped to the bottom due to the decrease in volume when particle positions are not scaled.
@@ -804,7 +804,7 @@ If an $NVT$ trial is attempted in the $\mu VT$ ensemble, $\Delta N_i=0$, and Eq.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=8.5cm]{../figures/muvt.png}
+\includegraphics[width=8.5cm]{../figures/muvt.pdf}
 \caption{
 Insertion trials randomly add a particle, here shown in blue, uniformly within the simulation volume.
 Deletion trials remove a random particle, and are the reverse of insertions.
@@ -999,7 +999,7 @@ The transition probabilities are summarized in Table~\ref{tab:lhs_sgcmc}.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=8.5cm]{../figures/sgcmc.png}
+\includegraphics[width=8.5cm]{../figures/sgcmc.pdf}
 \caption{
 Semi-$\mu VT$ change of a particle of type $i$, shown in red, into a particle of type $j$, shown in black.
 The total number of particles remains constant.
@@ -1162,7 +1162,7 @@ The total number of particles remains constant, as well as the volumes of both s
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/gibbs_particle.png}
+\includegraphics[width=6.5cm]{../figures/gibbs_particle.pdf}
 \caption{
 Gibbs ensemble transfer of the particle shown in blue from periodic domain $1$ to periodic domain $2$, and the reverse trial.
 The total number of particles remains constant.
@@ -1235,7 +1235,7 @@ The total volume, $V=V_1+V_2$, remains constant, as well as the numbers of parti
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/gibbs_volume.png}
+\includegraphics[width=6.5cm]{../figures/gibbs_volume.pdf}
 \caption{
 Gibbs ensemble transfer of volume from periodic domain $1$ to periodic domain $2$, and the reverse trial.
 The total volume remains constant and the particle positions are scaled as described in Section~\ref{sec:lhs_dv}.
@@ -1332,7 +1332,7 @@ If a particle deletion is chosen, then one of $N_i$ particles of type $i$ is cho
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/muvt_cb.png}
+\includegraphics[width=6.5cm]{../figures/muvt_cb.pdf}
 \caption{
 Multiple first bead configurational bias insertion and deletion considers randomly-generated positions for a newly inserted particle, shown by the dashed circles, in an existing fluid of particles, shown by the black circles.
 The most favorable position has the highest Rosenbluth probability of selection, which is shown in blue due to excluded volume overlap of the other red positions with the existing fluid.
@@ -1491,7 +1491,7 @@ In addition, cavity bias can also be implemented efficiently in lattice simulati
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/cavity.png}
+\includegraphics[width=6.5cm]{../figures/cavity.pdf}
 \caption{
 Cavity bias insertion and deletion may utilize a collection of points, here shown by a grid of red and blue points, which are tested for cavities.
 Cavities are where another particle could fit without excluded volume overlap with existing particles, shown here as black circles with grey excluded volumes.
@@ -1706,7 +1706,7 @@ The trial probabilities are summarized with insertion as the forward transition 
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/energybias.png}
+\includegraphics[width=6.5cm]{../figures/energybias.pdf}
 \caption{
 Energy bias insertion and deletion \cite{snurr_prediction_1993} divides the simulation domain into voxels, with $25$ shown here by the dashed lines.
 One voxel, $v$, is chosen for the available insertion volume according to a probability Boltzmann-weighted by the energy of interaction with a rigid adsorbent frame, shown by the black circles.
@@ -1806,7 +1806,7 @@ The transition probability of an insertion trial as the forward transition is th
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/muvt_target.png}
+\includegraphics[width=6.5cm]{../figures/muvt_target.pdf}
 \caption{
 Insertion and deletion trials in a targeted region, $v$.
 Similar to Fig.~\ref{fig:energybias}, the targeted region could be carefully chosen to avoid excluded volume overlap with a rigid adsorbent framework.
@@ -1884,7 +1884,7 @@ where $n_i$ is defined as the number of particles of type $i$ inside $v$ at the 
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/avb.png}
+\includegraphics[width=6.5cm]{../figures/avb.pdf}
 \caption{
 Insertion and deletion of a blue particle of type $i$ within the aggregation volume (AV), shown in green, of an existing particle of type $j$.
 }
@@ -1999,7 +1999,7 @@ After AVB, we also derive CB and DCCB displacements in the $NVT$ ensemble.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/avb2.png}
+\includegraphics[width=6.5cm]{../figures/avb2.pdf}
 \caption{
 AVBMC2 displacement of a blue particle of type $i$ from outside to inside the AV, $v_{AV}$ shown in green, of an existing target particle of type $j$, and the reverse trial.
 }
@@ -2120,7 +2120,7 @@ Using Table~\ref{tab:lhs_disp_out_avb2} and substituting Eq.~\ref{eq:rhs_nvt} in
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/avb4.png}
+\includegraphics[width=6.5cm]{../figures/avb4.pdf}
 \caption{
 AVBMC4 displacement of a blue particle of type $m$ from inside the AV, $v_j$ of an existing target particle of type $j$, into the AV of an existing target particle $k$, $v_k$, and the reverse trial.
 AVBMC3 does not allow overlapping AV as shown here \cite{chen_improving_2001}.
@@ -2225,7 +2225,7 @@ Fig.~\ref{fig:dccb_draw} shows an illustrative example of $\pi_{co} \neq \pi_{cn
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=4.5cm]{../figures/dccb_draw.png}
+\includegraphics[width=4.5cm]{../figures/dccb_draw.pdf}
 \caption{
 An illustration of the old and new Rosenbluth terms for hard circles as described in Fig.~\ref{fig:lhs_nvt}.
 The red box shows the positions available to $\pi_{cn}$ while the blue box shows the positions available to $\pi_{co}$.
@@ -2334,7 +2334,7 @@ Rigid cluster trial moves are biased because the transition probabilities depend
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6.5cm]{../figures/cluster.png}
+\includegraphics[width=6.5cm]{../figures/cluster.pdf}
 \caption{
 Detailed balance is violated if two separate clusters coalesce during a rigid cluster translation.
 In the forward transition, the blue cluster is displaced near a separate cluster shown in red.
@@ -2466,7 +2466,7 @@ caption=Visualize randomly uniform perturbations in three dimensional particle o
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=3cm]{../codes/random_orientation.png}
+\includegraphics[width=3cm]{../figures/random_orientation.png}
 \caption{
 Example output from Code Block~\ref{sim:random_orientation} shows $10^3$ uniformly random points on a sphere in blue, and $10^3$ points in orange randomly generated about the upwards $z$-axis using an orientational tunable parameter, $\delta=0.3$.
 \label{fig:orientation_perturbation}
@@ -2491,7 +2491,7 @@ caption=Visualize randomly uniform positions in a spherical shell in three dimen
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=3cm]{../codes/spherical_shell.png}
+\includegraphics[width=3cm]{../figures/spherical_shell.png}
 \caption{
 Example output from Code Block~\ref{sim:spherical_shell} shows $10^5$ small blue points randomly generated inside a spherical shell of outer radius $3$ and inner radius $2$.
 \label{fig:spherical_shell}

@@ -89,7 +89,7 @@
 %%% IMPORTANT USER CONFIGURATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\versionnumber}{0.1}  % you should update the minor version number in preprints and major version number of submissions.
+\newcommand{\versionnumber}{1.0}  % you should update the minor version number in preprints and major version number of submissions.
 % Do not add a newline in the next command, no matter how long the repository name is, as it will break the link in the PDF.
 \newcommand{\githubrepository}{\url{https://github.com/usnistgov/best-practices-mc}}  %this should be the main github repository for this article.
 
@@ -174,11 +174,14 @@ MD simulations may not be feasible for the required timescale of a physical proc
 In contrast, MC is not constrained to any physical laws of motion, and because of this, MC may be quite powerful because ``non-physical" trial moves may be performed, which significantly speed up the equilibration of the system or free a system trapped in a local free energy minimum, thus making it a powerful tool for determining equilibrium properties \cite{frenkel_understanding_2002, barhaghi_py-mcmd_2022, henin_enhanced_2022}.
 
 In MD, the sampling of collective motion with many bonded potentials and holonomic constraints is a general, broadly applicable approach to simulate a variety of complex molecules \cite{ryckaert_numerical_1977, andersen_rattle_1983}.
-In comparison, MC requires specialized trials that are chosen depending upon the molecules being simulated. Providing access to this specialization while maintaining broad applicability increases the software complexity of MC codes relative to MD. Still, there are some common features among different trials that MC codes can exploit to provide a robust, extensible framework.
+In comparison, MC requires specialized trials that are chosen depending upon the molecules being simulated.
+Providing access to this specialization while maintaining broad applicability increases the software complexity of MC codes relative to MD.
+Still, there are some common features among different trials that MC codes can exploit to provide a robust, extensible framework.
 
 Invention of new MC trials is an avenue for the developer to apply imagination and creativity to make simulations much more efficient, or even make "impossible" calculations newly feasible.
 For example, recent methodological MC developments allow proteins to be modeled as a single anisotropic site with docking trials \cite{vakser_docking-based_2022} and while retaining atomistic resolution \cite{hatch_anisotropic_2024}.
-While there is a broad scope for the invention of MC trials, constraints exist that ensure they provide correct sampling of the ensemble. Formulating a systematic approach for deriving computationally efficient MC trials while adhering to these constraints is the challenge we hope to address in this article.
+While there is a broad scope for the invention of MC trials, constraints exist that ensure they provide correct sampling of the ensemble.
+Formulating a systematic approach for deriving computationally efficient MC trials while adhering to these constraints is the challenge we hope to address in this article.
 
 In the simplest cases of an $NVT$ simulation of hard spheres or Lennard-Jones particles with periodic boundaries, MC is easier to implement than MD, which requires forces, velocities, integrators and thermostats.
 Instead, MC uses a random number generator to propose and decide acceptance of configuration changes according to the expected probability distributions.
@@ -216,7 +219,9 @@ The second is the use of (dual-cut) CB (DCCB) \cite{vlugt_improving_1998} for $N
 And the third is a slightly different expression for cavity bias.
 
 Computational tests using an ideal gas are also demonstrated to be an important first validation step for any proposed MC trial \cite{hatch_theory_2024}.
-They are fast and easily implemented, requiring in nearly all cases only a few dozen lines of code (which are provided in this article). In addition, the results of these ideal gas simulations can be readily compared to known theoretical results. With an ideal gas, all terms in the derived acceptance probabilities may be tested except for those depending on the potential energy.
+They are fast and easily implemented, requiring in nearly all cases only a few dozen lines of code (which are provided in this article).
+In addition, the results of these ideal gas simulations can be readily compared to known theoretical results.
+With an ideal gas, all terms in the derived acceptance probabilities may be tested except for those depending on the potential energy.
 
 The Living Journal of Computational Molecular Science (LiveCoMS) is an ideal forum for this work because many in the MC community may comment on or contribute to LiveCoMS articles.
 It is our hope that this document is a useful compendium that contains numerous MC trials which are otherwise derived in different ways and scattered throughout many research journals.
@@ -260,7 +265,7 @@ The derivation of $\chi$ in this article requires the condition of detailed bala
 \label{eq:detailed_balance_first}
 \end{equation}
 where $\Pi_o$ and $\Pi_n$ are the probabilities of being in the old and new microstates, respectively, $\alpha_{o\rightarrow n}$ and $\alpha_{n\rightarrow o}$ are the probabilities of attempting a transition from the old to the new microstate, and vice versa, and $\pi_{o\rightarrow n}$ and $\pi_{n\rightarrow o}$ are the probabilities of accepting those transitions.
-Symbols in this article are chosen to follow closely with Ref. \cite{frenkel_understanding_2002}, but note the different definition of $\pi$.
+Symbols in this article are chosen to follow closely with Ref.~\cite{frenkel_understanding_2002}, but note the different definition of $\pi$.
 Detailed balance is a sufficient, but not necessary, condition for ergodic sampling \cite{manousiouthakis_strict_1999}.
 For simplicity, we use detailed balance throughout the derivations of this article.
 While the microstate probabilities, $\Pi_o$ and $\Pi_n$, are determined solely by the statistical mechanical ensemble, the transition probabilities $\alpha_{o\rightarrow n}$ and $\alpha_{n\rightarrow o}$ depend upon how the MC trial move is implemented.
@@ -467,7 +472,9 @@ For example, detailed balance is violated if $\delta$ is tuned to reach a desire
 When $\delta$ is made smaller after a displacement trial, it may be impossible for the next trial to reverse back to the old state, as illustrated in Fig.~\ref{fig:lhs_nvt}.
 For this reason, $\delta$ should be changed only during equilibration and not during production simulations.
 
-Throughout this article, we tabulate these forward and reverse transition probabilities, $\pi$, step-by-step with a corresponding table, as shown for a displacement trial in Table~\ref{tab:lhs_displacement}. This table should indicate every use of a random number generator in both the forward and reverse transitions. Again, the overall transition probability for a trial is the product of the probabilities for a given direction.
+Throughout this article, we tabulate these forward and reverse transition probabilities, $\pi$, step-by-step with a corresponding table, as shown for a displacement trial in Table~\ref{tab:lhs_displacement}.
+This table should indicate every use of a random number generator in both the forward and reverse transitions.
+Again, the overall transition probability for a trial is the product of the probabilities for a given direction.
 
 \begin{table}
 \begin{center}
@@ -701,7 +708,7 @@ This equation is also valid for uniform changes in one of the side lengths, $L_d
 
 Eq.~\ref{eq:lhs_dv} is not valid for uniformly random changes in $\ln V$.
 Specifically, uniform changes in $\ln V$ occur when the particle coordinates and periodic boundary lengths are scaled by a factor of $e^{(\delta\ln V)/D}$, where $\delta\ln V$ is chosen as a random amount selected uniformly within $\pm\delta\ln V_{\mathrm{max}}$, and $\Delta V = V_o(e^{\delta\ln V}-1)$.
-As discussed in Ref. \cite{frenkel_understanding_2002} (without a shell particle) and Ref. \cite{corti_monte_2002} and Section~\ref{sec:rhs_npt} (with a shell particle), uniform changes in $\ln V$ use Eq.~\ref{eq:rhs_npt_delta_lnv} instead of Eq.~\ref{eq:rhs_npt_delta_v}, resulting in the following acceptance probability
+As discussed in Ref.~\cite{frenkel_understanding_2002} (without a shell particle) and Ref.~\cite{corti_monte_2002} and Section~\ref{sec:rhs_npt} (with a shell particle), uniform changes in $\ln V$ use Eq.~\ref{eq:rhs_npt_delta_lnv} instead of Eq.~\ref{eq:rhs_npt_delta_v}, resulting in the following acceptance probability
 \begin{equation}
 \chi=\left(\frac{V_n}{V_o}\right)^{N+1}e^{-\beta(\Delta U + P\Delta V)}.
 \label{eq:lhs_dlnv}
@@ -733,7 +740,7 @@ and
 \end{equation}
 respectively.
 The acceptance probabilities shown in Section \ref{sec:lhs_dv} without a shell particle would change according to these new microstate probabilities when a shell particle is included.
-Specifically, Eqs. \ref{eq:lhs_dv} and \ref{eq:lhs_dlnv} become
+Specifically, Eqs.~\ref{eq:lhs_dv} and \ref{eq:lhs_dlnv} become
 \begin{equation}
 \chi=\left(\frac{V_n}{V_o}\right)^{N-1}e^{-\beta(\Delta U + P\Delta V)}.
 \end{equation}
@@ -902,7 +909,7 @@ caption={MC $\mu VT$ simulation of an ideal gas using Python3, and the statistic
 \subsection{\label{sec:rhs_muvt_alt}Grand canonical ensemble with indistinguishable particles in scaled coordinates}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-Consider an alternative approach that includes the indistinguishable particle $N!$ correction, and uses scaled coordinates, as described in Ref. \cite{frenkel_understanding_2002}.
+Consider an alternative approach that includes the indistinguishable particle $N!$ correction, and uses scaled coordinates, as described in Ref.~\cite{frenkel_understanding_2002}.
 In this case, the $\mu VT$ microstate probability is
 \begin{equation}
 \Pi(N_i)\diff\mathbf{s}^{N}\diff\boldsymbol{\omega}^{N} \propto \frac{V^{N}z_i^{N_i}}{N!} e^{-\beta U} \diff\mathbf{s}^{N}\diff\boldsymbol{\omega}^{N}.
@@ -919,7 +926,7 @@ and is valid for changing the number of indistinguishable particles and choosing
 \subsection{\label{sec:lhs_insdel_alt}Insertion and deletion trials with indistinguishable particles in scaled coordinates}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-As opposed to deriving insertion and deletion acceptances with distinguishable particles in non-scaled coordinates, as in Sections~\ref{sec:rhs_muvt_distinguishable} and \ref{sec:lhs_insdel}, consider a similar trial conducted with indistinguishable particles in scaled coordinates, as in Ref. \cite{frenkel_understanding_2002}.
+As opposed to deriving insertion and deletion acceptances with distinguishable particles in non-scaled coordinates, as in Sections~\ref{sec:rhs_muvt_distinguishable} and \ref{sec:lhs_insdel}, consider a similar trial conducted with indistinguishable particles in scaled coordinates, as in Ref.~\cite{frenkel_understanding_2002}.
 In this case, the first ratio in Eq.~\ref{eq:detailed_balance} is given by Eq.~\ref{eq:rhs_muvt_alt}.
 But since the transition probabilities also change, the same acceptances are nonetheless obtained.
 
@@ -1434,7 +1441,8 @@ In the ideal gas limit, $U\rightarrow 0$, $W_{c}\rightarrow{c}$, and Eqs.~\ref{e
 Ideal gas simulations are helpful in quickly testing a CB implementation for verification.
 Although ${c}$ in Eqs.~\ref{eq:lhs_ins_cb} and \ref{eq:lhs_del_cb} may be incorporated into the chemical potential, this may lead to confusion and is not recommended if multiple kinds of $\mu VT$ trials are attempted.
 
-For single-site isotropic particles, such as those interacting via the Lennard-Jones potential, the orientational term (see Section~\ref{sec:lhs_rotation}) results in $P_{\omega n} = 1$ (or can be incorporated into the definition of $z_i$). Hence, this trial is not particularly efficient compared to simply conducting $c$ traditional insertion or deletion trials sequentially.
+For single-site isotropic particles, such as those interacting via the Lennard-Jones potential, the orientational term (see Section~\ref{sec:lhs_rotation}) results in $P_{\omega n} = 1$ (or can be incorporated into the definition of $z_i$).
+Hence, this trial is not particularly efficient compared to simply conducting $c$ traditional insertion or deletion trials sequentially.
 However, this method becomes more efficient when the calculation of $P_{\omega n}$ for more complex molecules is comparable or more expensive than the calculation of $W_{c}$ (e.g., using partial regrowth or orientational bias, etc).
 Another efficient approach is to use a reference potential that is less expensive than the full potential with longer-range interactions, where the reference potential still contains the most relevant terms for sampling (e.g., excluded volume in a dense fluid).
 Such a method is named dual-cut CB \cite{vlugt_improving_1998} as described in the next section.
@@ -1642,7 +1650,7 @@ Using Table~\ref{tab:lhs_ins_cavity_testpoint} and substituting Eq.~\ref{eq:rhs_
 \chi = N_l \delta^D\left(\frac{n_c}{N_{test}}\right)\frac{z_i}{P_{\omega n}(N_i+1)}e^{-\beta\Delta U}.
 \label{eq:cavity_bias_ntest}
 \end{equation}
-This equation takes the form of Eq. 4 of Ref. \cite{snurr_prediction_1993} because the fraction of the points in the cavity is $P_c = n_c/N_{test}$ and the total volume considered for insertions is $v=N_l\delta^D$.
+This equation takes the form of Eq.~4 of Ref.~\cite{snurr_prediction_1993} because the fraction of the points in the cavity is $P_c = n_c/N_{test}$ and the total volume considered for insertions is $v=N_l\delta^D$.
 
 With deletion as the forward transition, the position of the chosen particle to be deleted is $\mathbf{r}_o$, which is within $\delta$ in each dimension of a point within the predefined list, $\mathbf{r}_{ol}$.
 If not, the deletion is rejected to obey detailed balance.
@@ -2063,7 +2071,7 @@ Using Table~\ref{tab:lhs_disp_in_avb2} and substituting Eq.~\ref{eq:rhs_nvt} int
 \chi = \frac{P_{\omega o}(1-P_{bias})(N_i-N_i^{AV}-\delta_{ij})v_{AV}}{P_{\omega n} P_{bias}(N_i^{AV}+1)(V-v_{AV})}e^{-\beta \Delta U}.
 \label{eq:avb2outin}
 \end{equation}
-For an example of combining AVB with CB, see the Appendix of Ref. \cite{hatch_self-assembly_2016}.
+For an example of combining AVB with CB, see the Appendix of Ref.~\cite{hatch_self-assembly_2016}.
 
 The transition probabilities for ``in $\rightarrow$ out" as the forward transition are summarized in Table~\ref{tab:lhs_disp_out_avb2}.
 Using Table~\ref{tab:lhs_disp_out_avb2} and substituting Eq.~\ref{eq:rhs_nvt} into Eq.~\ref{eq:detailed_balance}, the acceptance probability is
@@ -2351,7 +2359,7 @@ The acceptance criteria is then given by Eq.~\ref{eq:lhs_displace}.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 Although the derivation of the acceptance criteria for MC trials is the focus of this article, common errors encountered during the implementation of MC are included here.
-For a more comprehensive discussion of the inner workings of MC see Ref. \cite{dubbeldam_inner_2013}.
+For a more comprehensive discussion of the inner workings of MC see Ref.~\cite{dubbeldam_inner_2013}.
 Thus, the scope of this section is for testing MC trial implementations.
 In this section, we discuss energy tests and machine precision issues for helping to capture common errors, the calculation of standard deviations using the block method \cite{flyvbjerg_error_1989, grossfield_best_2018}, the generation of a random position on the surface of a unit sphere and spherical shell, and the generation of random quaternions and rotation matrices.
 This section then ends with a discussion of the general workflow for testing a new MC trial.

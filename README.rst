@@ -1,7 +1,7 @@
-Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations v0.1
+Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations v1.0
 ************************************************************************************************************
 
-This repository contains all the files needed to create the manuscript "Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations v0.1"
+This repository contains all the files needed to create the manuscript "Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations v1.0"
 
 The figures may be generated as follows:
 

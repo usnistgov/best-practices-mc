@@ -29,6 +29,9 @@ The ideal gas tests can be run as follows:
    bash run_all_tests.sh
    popd
 
+Some codes files are redundant with figure files.
+This is intentional, because code blocks present in the manuscript are shortened to fit the page.
+
 Disclaimer
 ================================================================================
 

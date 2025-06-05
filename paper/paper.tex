@@ -550,6 +550,25 @@ If so, the trial must be immediately rejected, because the particle that was tak
 \subsection{\label{sec:lhs_rotation}Particle orientation change trial}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+$10^6$ trials, $10^2$ bins, $10$ simulations, $\delta \theta_{max}=\pi/10$.
+
+\begin{figure}
+\lstinputlisting[
+language=Python,
+label={sim:orientation_trials},
+caption={Caption.}
+]{../codes/orientation_trials.py}
+\end{figure}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=8.5cm]{../figures/orientation_trials.pdf}
+\caption{
+\label{fig:orientation_trials}
+}
+\end{centering}
+\end{figure}
+
 Orientations are typically fixed during particle displacements so as not to introduce a second tunable parameter for orientation moves that cannot be decoupled from the displacement parameter during optimization.
 Instead, the orientation of a single particle may be perturbed in a separate trial move which proceeds as follows.
 A particle is randomly chosen among $N_m$ mobile particles.
@@ -2409,7 +2428,7 @@ The third is for randomly generating positions in a spherical shell, which is us
 In the example shown in Code Block~\ref{sim:statistics}, the standard deviation is computed using the blocking method \cite{flyvbjerg_error_1989}.
 In this case, only blocks of $100$ samples are considered, but a careful analysis would show that the resulting standard deviation is independent of the block size (when large enough).
 Thus, with this implementation, we are assuming that the sampled states are independent after $100$ MC trials, which may be reasonable for an ideal gas but most likely not for a dense liquid.
-See the blocking tutorial in math plugin of FEASST \cite{hatch_monte_2024} for an example with computing the block standard deviation from the average position of a particle randomly walking in one dimension with periodic boundary conditions.
+See the blocking tutorial in python interface of FEASST \cite{hatch_monte_2024} for an example with computing the block standard deviation from the average position of a particle randomly walking in one dimension with periodic boundary conditions.
 If the maximum trial displacement is smaller than the periodic boundary, correlations in the position may persist over many trials.
 
 \begin{figure}
@@ -2428,9 +2447,9 @@ In the example shown in Code Block~\ref{sim:unit_sphere}, positions are generate
 This is an important case to consider, because MC trials often assume that particles may be randomly oriented.
 However, one must be careful in how an orientation is generated.
 Uniformly selected values of Euler angles, for example, will result in a bias along the poles.
-Code Block~\ref{sim:quaternion} also shows how quaternions may be randomly generated to represent a uniformly random orientation of a point on the surface of a sphere \cite{vesely_angular_1982}.
+Code Block~\ref{sim:quaternion} also shows how quaternions may be randomly generated to represent a uniformly random point on the surface of a sphere \cite{vesely_angular_1982}.
 Code Block~\ref{sim:rotationmatrix} uses these randomly generated quaternions to compute rotation matrices.
-A randomly generated perturbation of orientation is then shown in Fig.~\ref{fig:orientation_perturbation}.
+A randomly generated perturbation of orientation is then demonstrated in Fig.~\ref{fig:random_orientation}.
 
 \begin{figure}
 \lstinputlisting[
@@ -2452,7 +2471,7 @@ caption=The quaternion module generates a random quaternion about the surface of
 \lstinputlisting[
 language=Python,
 label={sim:rotationmatrix},
-caption=The rotation\_matrix module generates a rotation matrix from a quaternion.
+caption=The rotation\_matrix module generates a rotation matrix from an axis and angle.
 ]{../codes/rotation_matrix.py}
 \end{figure}
 
@@ -2466,10 +2485,10 @@ caption=Visualize randomly uniform perturbations in three dimensional particle o
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=3cm]{../figures/random_orientation.png}
+\includegraphics[width=6cm]{../figures/random_orientation.png}
 \caption{
-Example output from Code Block~\ref{sim:random_orientation} shows $10^3$ uniformly random points on a sphere in blue, and $10^3$ points in orange randomly generated about the upwards $z$-axis using an orientational tunable parameter, $\delta=0.3$.
-\label{fig:orientation_perturbation}
+  Example output from Code Block~\ref{sim:random_orientation} shows $10^3$ uniformly random unit vectors emanating from the origin and $10^3$ unit vectors in orange randomly generated about the upwards $z$-axis (shown in black) with axis-angle rotations of a maximum angle parameter, $\delta \theta_{max}=\pi/2=90$ degrees.
+\label{fig:random_orientation}
 }
 \end{centering}
 \end{figure}
@@ -2491,9 +2510,9 @@ caption=Visualize randomly uniform positions in a spherical shell in three dimen
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=3cm]{../figures/spherical_shell.png}
+\includegraphics[width=8.5cm]{../figures/spherical_shell.png}
 \caption{
-Example output from Code Block~\ref{sim:spherical_shell} shows $10^5$ small blue points randomly generated inside a spherical shell of outer radius $3$ and inner radius $2$.
+Example output from Code Block~\ref{sim:spherical_shell} shows approximately $10^5$ small blue points randomly generated inside a spherical shell of outer radius $3$ and inner radius $2$ and cut in half at $z=0$.
 \label{fig:spherical_shell}
 }
 \end{centering}

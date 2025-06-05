@@ -1,15 +1,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import quaternion
-import rotation_matrix
 import unit_sphere
+import random
+import rotation_matrix
+random.seed(43279857)
 ax = plt.figure().add_subplot(projection='3d')
 unit_sphere.plot(ax)
-x = np.empty(shape=(int(1e3), 3))
-for i, _ in enumerate(x):
-    q = [0, 0, 0, 1] + 0.3*quaternion.rand()
-    q /= np.linalg.norm(q)
-    z = [0, 0, 1]
-    x[i] = np.matmul(rotation_matrix.R_from_quat(q), z)
-ax.scatter(x[:, 0], x[:, 1], x[:, 2], color='orange')
+for i in range(int(1e4)):
+    angle = random.uniform(0, np.pi/2.)
+    axis = unit_sphere.uniform_surface()
+    x = np.matmul(rotation_matrix.axis_angle(axis, angle), [0, 0, 1])
+    ax.plot([0, x[0]], [0, x[1]], [0, x[2]],
+            color='orange', alpha=0.025)
+ax.plot([0,0], [0,0], [0,1], color='black')
 plt.show()

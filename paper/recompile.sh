@@ -1,4 +1,4 @@
-#latexdiff paper_10_16_2024.tex paper.tex > diff.tex
+#latexdiff paperv0.1.tex paper.tex > diff.tex
 #~/software/latexdiff/dist/latexdiff-so paper_old.tex paper.tex > diff.tex
 #~/software/latexdiff/dist/latexdiff-so paper_old.tex paper.tex > diff.tex
 for b in paper; do

@@ -4,13 +4,15 @@ syntax: glob
 __pycache__
 
 *.swp
-paper.aux
-paper.bbl
-paper.blg
-paper.log
+*.aux
+*.bbl
+*.blg
+*.log
+*.toc
+*.out
+*.suppinfo
 paper.pdf
-paper.toc
-paper.out
-paper.suppinfo
+diff.pdf
+diff.tex
 paperNotes.bib
 

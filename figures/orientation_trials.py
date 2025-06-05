@@ -47,6 +47,6 @@ for ia,a in enumerate(angs):
 #plt.show()
 plt.xlabel("Angle", fontsize=16)
 plt.ylabel("Probability Density", fontsize=16)
-plt.annotate(r"$\phi$", xy=[1, 0.45], xytext=[0, 0.47], arrowprops=dict(arrowstyle="->", lw=1), fontsize=16)
-plt.annotate(r"$\theta$", xy=[-2.5, 0.2], xytext=[-2.5, 0.3], arrowprops=dict(arrowstyle="->", lw=1), fontsize=16)
+plt.annotate("Polar Angle", xy=[1, 0.45], xytext=[-1.1, 0.5], arrowprops=dict(arrowstyle="->", lw=1), fontsize=16)
+plt.annotate("Azimuthal Angle", xy=[-1.5, 0.2], xytext=[-2.5, 0.3], arrowprops=dict(arrowstyle="->", lw=1), fontsize=16)
 plt.savefig(basename+".pdf", transparent=True, dpi=300)

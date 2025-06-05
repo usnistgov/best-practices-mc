@@ -11,20 +11,22 @@ rc("font",**{"family":"sans-serif","sans-serif":["OpenSans"]})
 rc("text", usetex=True)
 basename = os.path.basename(__file__)[:-3]
 random.seed(43279857)
-num_sims = 10
-num_bins = 100
+num_sims = 20
+num_trials = int(5e5)
+num_bins = int(3e2)
+#num_bins = int(num_trials/1e3)
 hist = np.zeros(shape=(num_sims, 2, 2, num_bins))
 def atan2(xs): return np.atan2(xs[:, 1], xs[:, 0])
 def acos(xs): return np.acos(xs[:, 2])
-def theta_dist(an): return 0*an + 0.5/np.pi
-def phi_dist(an): return 0.5*np.sin(an)
-angs = {"theta": {"min":-np.pi, "fn":atan2, "dist":theta_dist, "color":"blue"},
-        "phi": {"min":0, "fn":acos, "dist":phi_dist, "color":"red"}}
+def azimuth_dist(an): return 0*an + 0.5/np.pi
+def polar_dist(an): return 0.5*np.sin(an)
+angs = {"azimuth": {"min":-np.pi, "fn":atan2, "dist":azimuth_dist, "color":"blue"},
+        "polar": {"min":0, "fn":acos, "dist":polar_dist, "color":"red"}}
 for sim in range(num_sims):
-    x = [0, 0, 1]
-    xyz = np.zeros(shape=(int(1e6), 3))
+    x = unit_sphere.uniform_surface()
+    xyz = np.zeros(shape=(num_trials, 3))
     for ix,_ in enumerate(xyz):
-        angle = random.uniform(0, np.pi/10)
+        angle = np.pi/10*random.uniform(-0.5, 0.5)
         axis = unit_sphere.uniform_surface()
         x = np.matmul(rotation_matrix.axis_angle(axis, angle), x)
         xyz[ix] = x
@@ -33,17 +35,17 @@ for sim in range(num_sims):
         hist[sim][ia][0] = bins[1:] - 0.5*(bins[1] - bins[0])
         hist[sim][ia][1] = counts
 for ia,a in enumerate(angs):
-    av = np.zeros(num_bins)
+    mean = np.zeros(num_bins)
     std = np.zeros(num_bins)
     inside = 0
     bins = hist[0, ia, 0, :]
     for bn in range(num_bins):
-        av[bn] = np.mean(hist[:, ia, 1, bn])
+        mean[bn] = np.mean(hist[:, ia, 1, bn])
         std[bn] = np.std(hist[:, ia, 1, bn])/np.sqrt(num_sims)
-        inside += np.abs(av[bn] - angs[a]["dist"](bins[bn])) < std[bn]
+        inside += np.abs(mean[bn] - angs[a]["dist"](bins[bn])) < std[bn]
     print("Percent", a, "within a stdev:", inside/num_bins)
-    plt.errorbar(bins, av, std, fmt=".", color=angs[a]["color"])
-    plt.plot(bins, angs[a]["dist"](bins), color="black")
+    plt.errorbar(bins, mean, std, fmt=".", color=angs[a]["color"], zorder=0)
+    plt.plot(bins, angs[a]["dist"](bins), color="black", zorder=1)
 #plt.show()
 plt.xlabel("Angle", fontsize=16)
 plt.ylabel("Probability Density", fontsize=16)

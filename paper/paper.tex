@@ -439,17 +439,19 @@ where $\Delta U = U_n - U_o$, $U_n$ and $U_o$ are the potential energies of the 
 This expression is used for any trial that changes only the positions and orientations of the particles.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\label{sec:lhs_displacement}Particle displacement trial}
+\subsection{\label{sec:lhs_translation}Particle translation trial}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-An MC particle-displacement trial move is defined as follows.
+Translation contains only the linear part of a displacement and not angular displacement.
+An MC translation trial move is defined as follows.
 A particle is randomly chosen among all of the mobile, non-fixed particles in the old microstate.
 The total number of mobile particles is $N_m=\sum_i^{mobile} N_i$, where $i$ is the particle type.
-The randomly chosen particle with position $\mathbf{r}_o$ in the old microstate is then displaced by a random amount selected uniformly within $\pm\delta/2$ in each of $D$ dimensions, to a new position labeled $\mathbf{r}_n$, thereby defining the new microstate.
+The randomly chosen particle with position $\mathbf{r}_o$ in the old microstate is then translated by a random amount selected uniformly within $\pm\delta/2$ in each of $D$ dimensions, to a new position labeled $\mathbf{r}_n$, thereby defining the new microstate.
+
 
 For this trial, the transition probability, $\alpha_{o\rightarrow n}$, may be obtained as the product of the transition probabilities for each step.
 Each step that involves the generation of a random number should be considered.
-In this particle-displacement trial, there are two such steps.
+In this translation trial, there are two such steps.
 In the first, a particle is chosen randomly among $N_m$ mobile particles.
 This means that the probability of choosing that particular particle, $1/N_m$, is the transition probability of the first step.
 In the second step, $\mathbf{r}_n$ is chosen uniformly within a region of volume $\delta^D$.
@@ -467,8 +469,8 @@ Thus,
 \begin{centering}
 \includegraphics[width=6.5cm]{../figures/lhs_nvt.pdf}
 \caption{
-Detailed balance is violated if the tunable displacement parameter, $\delta$, decreases.
-If the particle is displaced from the old position, $\mathbf{r}_o$, within $\delta_o$ in each dimension, then the particle may not be able to return to $\mathbf{r}_o$ in the reverse trial if the next displacement is within $\delta_n<\delta_o$.
+Detailed balance is violated if the tunable translation parameter, $\delta$, decreases.
+If the particle is translated from the old position, $\mathbf{r}_o$, within $\delta_o$ in each dimension, then the particle may not be able to return to $\mathbf{r}_o$ in the reverse trial if the next translation is within $\delta_n<\delta_o$.
 This is why $\delta$ should change only during equilibration and not during production simulations.
 }
 \label{fig:lhs_nvt}
@@ -478,10 +480,10 @@ This is why $\delta$ should change only during equilibration and not during prod
 In order to solve for the trial acceptance probability, $\chi$, the reverse trial transition probability from the new microstate to the old microstate, $\alpha_{n\rightarrow o}$, must also be obtained in order to utilize Eq.~\ref{eq:detailed_balance}.
 The reverse transition must always be capable of returning to the old microstate; otherwise detailed balance is violated.
 For example, detailed balance is violated if $\delta$ is tuned to reach a desired acceptance probability.
-When $\delta$ is made smaller after a displacement trial, it may be impossible for the next trial to reverse back to the old state, as illustrated in Fig.~\ref{fig:lhs_nvt}.
+When $\delta$ is made smaller after a translation trial, it may be impossible for the next trial to reverse back to the old state, as illustrated in Fig.~\ref{fig:lhs_nvt}.
 For this reason, $\delta$ should be changed only during equilibration and not during production simulations.
 
-Throughout this article, we tabulate these forward and reverse transition probabilities, $\pi$, step-by-step with a corresponding table, as shown for a displacement trial in Table~\ref{tab:lhs_displacement}.
+Throughout this article, we tabulate these forward and reverse transition probabilities, $\pi$, step-by-step with a corresponding table, as shown for a translation trial in Table~\ref{tab:lhs_translation}.
 This table should indicate every use of a random number generator in both the forward and reverse transitions.
 Again, the overall transition probability for a trial is the product of the probabilities for a given direction.
 
@@ -496,8 +498,8 @@ Again, the overall transition probability for a trial is the product of the prob
  \makecell{Choose $\mathbf{r}_n$} & \makecell{$\diff\mathbf{r}/\delta^D$} & & \makecell{Choose $\mathbf{r}_o$} & \makecell{$\diff\mathbf{r}/\delta^D$} \\
  \cline{1-2}\cline{4-5}
 \end{tabular}
-\caption{Displacement transition probabilities.}
-\label{tab:lhs_displacement}
+\caption{Translation transition probabilities.}
+\label{tab:lhs_translation}
 \end{center}
 \end{table}
 
@@ -509,9 +511,9 @@ The reverse transition probability is given by
 Substituting Eqs.~\ref{eq:rhs_nvt}, \ref{eq:lhs_disp_forward} and \ref{eq:lhs_disp_rev} into Eq.~\ref{eq:detailed_balance} yields,
 \begin{equation}
 \chi = e^{-\beta\Delta U}
-\label{eq:lhs_displace}
+\label{eq:lhs_translate}
 \end{equation}
-for the Metropolis acceptance of particle-displacement trials.
+for the Metropolis acceptance of translation trials.
 
 \begin{figure}
 \lstinputlisting[
@@ -521,7 +523,7 @@ caption={MC simulation of a single particle in one dimension attached to a harmo
 ]{../codes/nvt_harmonic.py}
 \end{figure}
 
-Code Block~\ref{sim:nvt_harmonic} tests Eq.~\ref{eq:lhs_displace} for a single particle subject to an the external harmonic potential centered about the origin in one dimension.
+Code Block~\ref{sim:nvt_harmonic} tests Eq.~\ref{eq:lhs_translate} for a single particle subject to an external harmonic potential centered about the origin in one dimension.
 The expected average position is the origin.
 Also, according to the equipartition theorem, the expected average energy is $0.5k_BT$.
 
@@ -530,36 +532,36 @@ If multiple particles were moved in one MC trial, then only one unfavorable over
 Thus, it is typically more efficient to perturb only one particle at a time.
 However, there are special cases where it is still efficient for more than one particle to move in a single trial, as discussed in Section~\ref{sec:lhs_cluster}.
 
-The tunable displacement parameter may have an optimal value in a dense fluid.
-Larger displacements are likely to overlap with another particle, while smaller displacements are too correlated with the old microstate, reducing sampling efficiency.
-Tunable displacement parameters are optimized by changing $\delta$ during an equilibration period to achieve a desired acceptance, often $25$ $\%$ \cite{kolafa_optimization_1987, jacucci_comparing_1984, chapman_metropolis_1985, mountain_quantative_1994, hatch_parallel_2020}.
-Although Metropolis \textit{et. al} \cite{metropolis_equation_1953} used 50 \%, it seems that higher efficiencies may be achieved with slightly lower acceptances for particle displacements because rejects can be less expensive (e.g., hard overlap detected, updating neighbor lists, etc.) and larger displacements can lead to large configuration changes, although too low of acceptance also runs the risk of poor sampling.
+The tunable translation parameter may have an optimal value in a dense fluid.
+Larger translations are likely to overlap with another particle, while smaller translations are more correlated with the old microstate, reducing sampling efficiency.
+Tunable translation parameters are optimized by changing $\delta$ during an equilibration period to achieve a desired acceptance, often $25$ $\%$ \cite{kolafa_optimization_1987, jacucci_comparing_1984, chapman_metropolis_1985, mountain_quantative_1994, hatch_parallel_2020}.
+Although Metropolis \textit{et. al} \cite{metropolis_equation_1953} used 50 \%, it seems that higher efficiencies may be achieved with slightly lower acceptances for particle translation because rejects can be less expensive (e.g., hard overlap detected, updating neighbor lists, etc.) and larger translations can lead to large configuration changes, although too low of acceptance also runs the risk of poor sampling.
 
-An efficient implementation may have a displacement parameter, $\delta_i$, specifically tuned for each particle type, $i$.
+An efficient implementation may have a translation parameter, $\delta_i$, specifically tuned for each particle type, $i$.
 This could be important to improve sampling in cases where the particle sizes or interactions are different.
 In addition, particles are chosen from all mobile particles, $N_m$.
-A possible alternative would be to define separate trials that select among specific particle types.
-In that case, if there are more particles of one type than another, the species with fewer numbers could have a relatively larger probability of displacement.
+An alternative would be to define separate trials that select among specific particle types.
+In that case, if there are more particles of one type than another, the species with fewer numbers could have a relatively larger probability of translation.
 The relative efficiency of this alternative approach compared to the one derived here is beyond the scope of this article.
 If the minor species is of more interest, the alternative could be more efficient.
 On the other hand, inefficiencies could arise if the minor species were caged in solvent that was not as well sampled.
 %Although these trials could be assigned different weights to correct this relative probability, such weights would need to be recomputed when the number of particles changes.
 
-The goal of particle-displacement trials is to give every particle an equal chance to move.
+The goal of translation trials is to give every particle a chance to move.
 In principle, any state may be visited, which is a key element of the ergodic hypothesis.
 Although sequential updates have been shown to converge faster than random updates in an Ising model, sequential updates break detailed balance and follow a weaker balance condition \cite{ren_acceleration_2006}.
 Trials that do not obey detailed balance are outside the scope of this article.
 
-This displacement algorithm could also be carefully modified to select particles only in a specific region of space.
+This translation algorithm could also be carefully modified to select particles only in a specific region of space.
 But detailed balance violations could occur if the set of available particles changes.
-For example, it is possible for the displacement to take a particle out of this region.
+For example, it is possible for the translation to take a particle out of this region.
 If so, the trial must be immediately rejected, because the particle that was taken out of the region cannot be chosen for the reverse transition and therefore detailed balance is violated.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{\label{sec:lhs_rotation}Particle orientation-change trial}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-Orientations are typically fixed during particle displacements so as not to introduce a second tunable parameter for orientation moves that cannot be decoupled from the displacement parameter during optimization.
+Orientations are typically fixed during particle translation trials so as not to introduce a second tunable parameter for orientation moves that cannot be decoupled from the translation parameter during optimization.
 Instead, the orientation of a single particle may be perturbed in a separate trial move.
 A robust and intuitive way to accomplish this is via the axis-angle method: (1) a particle is randomly chosen among $N_m$ mobile particles; (2) a rotation axis $\hat {\bf u}$ is generated by sampling uniformly on the surface of a sphere (Sec.~\ref{sec:unit_sphere}); (3) a rotation angle $\theta$ is generated uniformly on $\pm\delta\theta_{max}/2$ (with $\delta\theta_{max}$ a tunable parameter).
 With the rotation so defined, a rotation matrix can be computed
@@ -640,7 +642,7 @@ for the Metropolis acceptance of particle orientation changes.
 %If the original particle orientation is represented by a collection of coordinates, use $\mathbf{q}_o=[0, 0, 0, 1]$ (which corresponds to an identity rotation matrix) to generate a rotation matrix from $\mathbf{q}_n$ to perturb the coordinates.
 %Because of the use of the tunable parameter, $P_{\omega n}$ and $P_{\omega o}$ are equal to each other and therefore cancel one another in Eq.~\ref{eq:lhs_rotate}.
 
-A larger tunable parameter, $\delta\theta_{max}$, leads to a larger rotation, and thus $\delta\theta_{max}$ may be tuned in the same manner as the displacement parameter to reach a target acceptance for each species.
+A larger tunable parameter, $\delta\theta_{max}$, leads to a larger rotation, and thus $\delta\theta_{max}$ may be tuned in the same manner as the translation tunable parameter to reach a target acceptance for each species.
 To avoid violating detailed balance, this tunable parameter should remain constant during the production simulations for the same reason as shown in Fig.~\ref{fig:lhs_nvt}.
 
 Code Block~\ref{sim:orientation_trials} tests Eqs.~\ref{eq:rotation_matrix} and \ref{eq:lhs_rhs_rot_fwdrev} with the simulation of the orientation of a single rigid body in $3$ dimensions.
@@ -652,7 +654,7 @@ These analytical expectations are compared against the MC simulation in Fig.~\re
 \lstinputlisting[
 language=Python,
 label={sim:orientation_trials},
-  caption={MC simulation of a single rigid body in three dimensions using Python 3 using $5\times 10^5$ random displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ orientations) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
+  caption={MC simulation of a single rigid body in three dimensions using Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ orientations) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
 ]{../codes/orientation_trials.py}
 \end{figure}
 
@@ -2044,6 +2046,7 @@ The deletion acceptance is obtained by substituting Eq.~\ref{eq:rhs_muvt} into t
 
 In this section, biased $NVT$ trials are derived.
 First, we consider AVB displacement trials.
+Displacement trials include both linear and angular displacement.
 There are a few variants of AVB to consider.
 Although inefficiencies were found in the original version \cite{chen_aggregation-volume-bias_2001, wierzchowski_general-purpose_2001, wierzchowski_ub_2002}, the second variant, AVBMC2, efficiently moves particles in and out of the AV \cite{chen_improving_2001}.
 A third variant, AVBMC3, allows for particles to move from the AV of one particle into the AV of another particle (denoted as ``in $\rightarrow$ in") \cite{chen_improving_2001}.
@@ -2262,22 +2265,22 @@ The acceptance probability for the $k\rightarrow j$ attempt as the forward trans
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\label{sec:lhs_disp_cb}Displacement with configurational bias (CB)}
+\subsection{\label{sec:lhs_disp_cb}Translation with configurational bias (CB)}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-While configurational bias (CB) is often used to grow complex molecules, CB may also be used to displace particles.
+While configurational bias (CB) is often used to grow complex molecules, CB may also be used to translate particles.
 Although this may not be the most efficient choice for many applications, it is instructive to consider how CB is derived.
 In addition, dual-cut configurational (DCCB) \cite{vlugt_improving_1998} may make this an efficient trial.
-To our knowledge, CB on single site displacements has not been published before.
+To our knowledge, CB on single site translation has not been published before.
 
-A CB displacement proceeds as follows.
+A CB translation proceeds as follows.
 A particle is randomly chosen among all mobile, non-fixed particles in the old microstate, $N_m=\sum_i^{mobile} N_i$, where $i$ is the particle type.
 %A particle of type $i$ is chosen randomly.
 The position of a specific site in the chosen particle is $\mathbf{r}_o$ at the beginning of the trial.
 Then, $c$ new positions, $\mathbf{r}_n^i$, are placed at random positions selected uniformly within $\pm\delta/2$ of $\mathbf{r}_o$ in each of $D$ dimensions.
-One of the $c$ positions are chosen with probability $\pi_{cn}$, and the particle is rigidly displaced to that position.
+One of the $c$ positions are chosen with probability $\pi_{cn}$, and the particle is rigidly translated to that position with fixed orientation.
 The $\pi_{cn}$ may be a function of the positions of the particles, and this choice is the namesake of the CB method \cite{siepmann_configurational_1992}.
-The reverse trial is to choose the same particle of type $i$, and displace from $\mathbf{r}_n$ to $\mathbf{r}_o$ after choosing from among $c$ positions with probability $\pi_{co}$.
+The reverse trial is to choose the same particle of type $i$, and translated from $\mathbf{r}_n$ to $\mathbf{r}_o$ after choosing from among $c$ positions with probability $\pi_{co}$.
 The probability $\pi_{co}$ is used in choosing a new position about $\mathbf{r}_n$, while $\pi_{cn}$ is used in choosing a new position about $\mathbf{r}_o$.
 Fig.~\ref{fig:dccb_draw} shows an illustrative example of $\pi_{co} \neq \pi_{cn}$.
 
@@ -2305,8 +2308,6 @@ Thus, $\pi_{cn} \neq \pi_{co}$.
  \makecell{Choose $c$ positions about $\mathbf{r}_o$.\\ Probability that $\mathbf{r}_n$ is in $c$.} & $c\diff\mathbf{r}/\delta^D$ \\
  \hline
  Choose $\mathbf{r}_n$ in $c$ positions & $\pi_{cn}$ \\
- \hline
- Choose orientation & $P_{\omega n}\diff\boldsymbol{\omega}$ \\
  \hline\hline
  \thead{Reverse} & \thead{$\alpha_{n\rightarrow o}$} \\ [0.5ex]
  \hline
@@ -2316,10 +2317,8 @@ Thus, $\pi_{cn} \neq \pi_{co}$.
  \hline
  Choose $\mathbf{r}_o$ in $c$ positions & $\pi_{co}$ \\
  \hline
- Choose orientation & $P_{\omega o}\diff\boldsymbol{\omega}$ \\
- \hline
 \end{tabular}
-\caption{Displacement with CB transition probabilities.}
+\caption{Translation with CB transition probabilities.}
 \label{tab:lhs_disp_cb}
 \end{center}
 \end{table}
@@ -2327,7 +2326,7 @@ Thus, $\pi_{cn} \neq \pi_{co}$.
 The transition probabilities are summarized in Table~\ref{tab:lhs_disp_cb}.
 Using Table~\ref{tab:lhs_disp_cb} and substituting Eq.~\ref{eq:rhs_nvt} into Eq.~\ref{eq:detailed_balance}, the acceptance probability is
 \begin{equation}
-\chi = \frac{P_{\omega o}}{P_{\omega n}}\frac{\pi_{co}}{\pi_{cn}}e^{-\beta \Delta U}.
+\chi = \frac{\pi_{co}}{\pi_{cn}}e^{-\beta \Delta U}.
 \label{eq:cb}
 \end{equation}
 
@@ -2347,22 +2346,21 @@ where $W_{co}=\sum_{io}^c e^{-\beta U(\mathbf{r}_{io})}$ and the subscript $io$ 
 
 Substituting Eqs.~\ref{eq:pcn} and \ref{eq:pco} into Eq.~\ref{eq:cb} gives
 \begin{equation}
-\chi = \frac{P_{\omega o}}{P_{\omega n}}\frac{W_{cn}}{W_{co}}e^{-\beta[\Delta U - U(\mathbf{r}_n) + U(\mathbf{r}_o)]}.
+\chi = \frac{W_{cn}}{W_{co}}e^{-\beta[\Delta U - U(\mathbf{r}_n) + U(\mathbf{r}_o)]}.
 \end{equation}
 This form of $\pi_{cn}$ is convenient because $\Delta U - U(\mathbf{r}_n) + U(\mathbf{r}_o)$ contains only interaction energies beyond the center of the first site (e.g., if there were multiple sites).
 
-The efficiency of this method depends on the relative computational cost of the orientation term, $\frac{P_{\omega o}}{P_{\omega n}}$, to the translational term, $\frac{W_{co}}{W_{cn}}$.
-For single-site isotropic particles, $P_{\omega o}=P_{\omega n}$ and standard displacements described in Section~\ref{sec:lhs_displacement} may be more optimal for the following reason.
-Assuming that the calculation of the energy takes the majority of the CPU time, a standard displacement requires computing the energy twice (or only once if the old contribution is stored).
+The efficiency of translation CB is debatable and depends upon the model system.
+Standard translations for single-site isotropic particles described in Section~\ref{sec:lhs_translation} may be more optimal for the following reason.
+Assuming that the calculation of the energy takes the majority of the CPU time, a standard translation requires computing the energy twice (or only once if the old contribution is stored).
 In comparison, this choice of $\pi_{cn}$ and $\pi_{co}$ requires computing the energy $2c$ times (minus one if the old contribution is stored).
 Thus, in the CPU time it takes to complete one of these CB trials, approximately $c$ standard trials could have been attempted, each with their own acceptance probability.
 In this case, its possible more than one of the $c$ standard trials could have been accepted, in which case the standard approach would be more efficient.
 
-On the other hand, if the orientation term, $\frac{P_{\omega o}}{P_{\omega n}}$, is comparable or more computationally expensive than the translational term, $\frac{W_{cn}}{W_{co}}$, then this trial may be an efficient choice.
-In addition, other choices of $\pi_{cn}$ and $\pi_{co}$ could make CB useful even for single-site particles, as we will shown in the next section.
+On the other hand, other choices of $\pi_{cn}$ and $\pi_{co}$ could make CB translation efficient, even for single-site particles, as we will show in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\label{sec:lhs_disp_dccb}Displacement with dual-cut configurational bias (DCCB)}
+\subsection{\label{sec:lhs_disp_dccb}Translation with dual-cut configurational bias (DCCB)}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 A more efficient choice of $\pi_{cn}$ and $\pi_{co}$ is the DCCB approach if a suitable reference potential may be utilized \cite{vlugt_improving_1998}.
@@ -2375,7 +2373,7 @@ For DCCB,
 where $W_{cnr}=\sum_{in}^c e^{-\beta U_r(\mathbf{r}_{in})}$ and the subscript $in$ denotes that the positions, $\mathbf{r}_{in}$, were placed at random positions selected uniformly about $\mathbf{r}_o$.
 The acceptance criteria is then obtained by substituting Eq.~\ref{eq:pcnr} for both $\pi_{cn}$ and $\pi_{co}$ in Eq.~\ref{eq:cb},
 \begin{equation}
-\chi = \frac{P_{\omega o}}{P_{\omega n}}\frac{W_{cnr}}{W_{cor}}e^{-\beta [\Delta U - U_r(\mathbf{r}_n) + U_r(\mathbf{r}_o)]}.
+\chi = \frac{W_{cnr}}{W_{cor}}e^{-\beta [\Delta U - U_r(\mathbf{r}_n) + U_r(\mathbf{r}_o)]}.
 \end{equation}
 Assuming that $U_r$ results in the choice of likely accepted configurations by approximating the highest-contributing parts of the full potential, the sampling efficiency may be increased.
 On the other hand, a poor choice of $U_r$ could decrease the simulation efficiency.
@@ -2383,10 +2381,10 @@ In the worst case, ergodic sampling is broken by the rejection of valid configur
 Despite this, DCCB is an efficient method that may be tested and benchmarked against simulations without DCCB.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\label{sec:lhs_cluster}Displacement and rotation of rigid clusters}
+\subsection{\label{sec:lhs_cluster}Translation and rotation of rigid clusters}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The displacement of rigid clusters is very similar to that of single particles described in Section~\ref{sec:lhs_displacement}, except for the key differences that a cluster criteria must be specified, and that particles identified as part of a cluster must stay in that cluster after the trial.
+The translation of rigid clusters is very similar to that of single particles described in Section~\ref{sec:lhs_translation}, except for the key differences that a cluster criteria must be specified, and that particles identified as part of a cluster must stay in that cluster after the trial.
 If the clusters are allowed to change, then detailed balance is violated, as shown in Fig.~\ref{fig:cluster}.
 Rigid cluster trial moves are biased because the transition probabilities depend on the configuration (i.e., the cluster criteria).
 
@@ -2395,7 +2393,7 @@ Rigid cluster trial moves are biased because the transition probabilities depend
 \includegraphics[width=6.5cm]{../figures/cluster.pdf}
 \caption{
 Detailed balance is violated if two separate clusters coalesce during a rigid cluster translation.
-In the forward transition, the blue cluster is displaced near a separate cluster shown in red.
+In the forward transition, the blue cluster is translated near a separate cluster shown in red.
 If this move were allowed, the reverse cluster move would be impossible because clusters are moved rigidly and cannot be broken apart during the trial.
 To obey detailed balance, reject rigid cluster moves that result in the coalescence of two originally separate clusters.
 }
@@ -2403,14 +2401,14 @@ To obey detailed balance, reject rigid cluster moves that result in the coalesce
 \end{centering}
 \end{figure}
 
-A rigid cluster displacement proceeds as follows.
+A rigid cluster translation or rotation proceeds as follows.
 First, an individual cluster is identified.
 This identification could take many forms.
 For example, one particle could be randomly chosen for a given type, and then a flood-fill algorithm could be used to find all particles within a distance cutoff from all particles in the cluster \cite{hatch_self-assembly_2016}.
 Regardless of the metric used to identify clusters, the same metric must be applied again at the end of the trial.
 In addition, if a cluster has picked up or lost any particles, then the trial must be immediately rejected.
-Clusters may be rigidly displaced or rotated with a parameter that is tunable during equilibration but must stay constant during production simulations, as described in Section~\ref{sec:lhs_displacement}.
-The acceptance criteria is then given by Eq.~\ref{eq:lhs_displace}.
+Clusters may be rigidly translated or rotated with a parameter that is tunable during equilibration but must stay constant during production simulations, as described in Section~\ref{sec:lhs_translation}.
+The acceptance criteria is then given by Eq.~\ref{eq:lhs_translate} or \ref{eq:lhs_rotate}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{sec:common_issues}Implementation issues in MC molecular simulations}
@@ -2468,7 +2466,7 @@ In the example shown in Code Block~\ref{sim:statistics}, the standard deviation 
 In this case, only blocks of $100$ samples are considered, but a careful analysis would show that the resulting standard deviation is independent of the block size (when large enough).
 Thus, with this implementation, we are assuming that the sampled states are independent after $100$ MC trials, which may be reasonable for an ideal gas but most likely not for a dense liquid.
 See the blocking tutorial in python interface of FEASST \cite{hatch_monte_2024} for an example with computing the block standard deviation from the average position of a particle randomly walking in one dimension with periodic boundary conditions.
-If the maximum trial displacement is smaller than the periodic boundary, correlations in the position may persist over many trials.
+If the maximum translation is smaller than the periodic boundary, correlations in the position may persist over many trials.
 
 \begin{figure}
 \lstinputlisting[
@@ -2573,7 +2571,7 @@ Then, when computing the same result with the new trial, any differences may be 
 Start with the simplest model and thermodynamic conditions that may reveal differences, such as an ideal gas simulation.
 Also, if possible, completely remove as many other trials from the simulation with the new trial, thereby allowing one to better determine if the new trial is incorrect.
 Otherwise, the difference in the results due to the new trial may be difficult to detect, or the impact of the new trial difficult to isolate, because the other trials are contributing greatly.
-For example, AVB insertions and deletions can be tested without standard insertions and deletions, and without even $NVT$ displacement moves.
+For example, AVB insertions and deletions can be tested without standard insertions and deletions, and without even $NVT$ translation and rotation trials.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{sec:conc}Conclusions}

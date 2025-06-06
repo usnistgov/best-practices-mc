@@ -654,7 +654,7 @@ These analytical expectations are compared against the MC simulation in Fig.~\re
 \lstinputlisting[
 language=Python,
 label={sim:orientation_trials},
-  caption={MC simulation of a single rigid body in three dimensions using Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ orientations) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
+  caption={MC simulation of a single rigid body in three dimensions using Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ MC trials) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
 ]{../codes/orientation_trials.py}
 \end{figure}
 
@@ -2512,7 +2512,7 @@ caption=The unit\_sphere module generates randomly uniform positions on the surf
 language=Python,
 label={sim:rotationmatrix},
 caption=The rotation\_matrix module generates a rotation matrix from an axis and angle.
-]{../codes/rotation_matrix.py}
+]{../codes/rotation.py}
 \end{figure}
 
 \begin{figure}

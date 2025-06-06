@@ -5,8 +5,7 @@ import sys
 sys.path.insert(0, '../codes/')
 import numpy as np
 import matplotlib.pyplot as plt
-import quaternion
-import rotation_matrix
+import rotation
 import unit_sphere
 import matplotlib
 import random
@@ -20,7 +19,7 @@ unit_sphere.plot(ax)
 for i in range(int(1e4)):
     angle = random.uniform(0, np.pi/2.)
     axis = unit_sphere.uniform_surface()
-    x = np.matmul(rotation_matrix.axis_angle(axis, angle), [0, 0, 1])
+    x = np.matmul(rotation.axis_angle(axis, angle), [0, 0, 1])
     ax.plot([0, x[0]], [0, x[1]], [0, x[2]], color='orange', alpha=0.025)
 ax.plot([0,0], [0,0], [0,1], color='black')
 ax.set_xlabel('x', fontsize=16)

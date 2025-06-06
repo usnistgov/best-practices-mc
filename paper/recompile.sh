@@ -1,9 +1,6 @@
-#latexdiff paperv0.1.tex paper.tex > diff.tex
-#~/software/latexdiff/dist/latexdiff-so paper_old.tex paper.tex > diff.tex
-#~/software/latexdiff/dist/latexdiff-so paper_old.tex paper.tex > diff.tex
-for b in paper; do
-#for b in diff; do
-#for b in paper diff; do
+latexdiff paperv0.1.tex paperv1.0.tex > diffv1.0.tex
+#for b in paperv1.0; do
+for b in diffv1.0; do
 
 rm *.aux
 rm *.bbl

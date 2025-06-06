@@ -579,7 +579,7 @@ However, using the centroid for ${\bf r}_i$ is not a requirement; any well-defin
 
 %Alternatively, if the orientation coordinate is held explicitly (e.g., as a quaternion), then it can be updated from $\hat{\bf u}$ and $\theta$ using an appropriate formula.
 
-Regardless of how the selected rotation is implemented, the transition probabilities are given in terms of the axis-angle selection process outlined above.
+Regardless of the selected centroid, the transition probabilities are given in terms of the axis-angle selection process outlined above.
 The elements of the transition probabilities for the particle orientation trial are summarized in Table~\ref{tab:lhs_rotation}.
 Together they yield the forward and reverse probabilities, which in this case are again equal
 \begin{equation}
@@ -626,35 +626,22 @@ Substituting Eq.~\ref{eq:rhs_nvt} into Eq.~\ref{eq:detailed_balance} and using t
 for the Metropolis acceptance of particle orientation changes.
 To simplify notation, all remaining trial moves which include changes in orientation will simply refer to these transition probabilities as $P_{\omega n}$ and $P_{\omega o}$ for the new and old states, respectively.
 
-%For a rigid rotation of a particle in three dimensions, the orientation may be given by Euler angles or quaternions.
-%However, when obtaining a random orientation, it is important not to select random values uniformly within the range of each of these variables.
-%For example, independent and uniform selection of Euler angles will bias orientations toward the poles and makes the calculation of $P_{\omega n}$ and $P_{\omega o}$ nontrivial.
-%Instead, the orientation should be uniformly chosen on the surface of a sphere \cite{allen_computer_1989}.
-%In that case, $P_{\omega n}=P_{\omega o}$.
-%The d$\boldsymbol{\omega}$ terms in the probability of states, $\Pi$, include the orientations of the particles, which are sampled uniformly over the entire surface of a sphere and are normalized with the appropriate Jacobian.
-%An example of randomly picking points on the surface of a sphere is shown in Section~\ref{sec:unit_sphere}.
-%
-%A more efficient approach for sampling particle orientations is to perturb the rigid orientation using a tunable parameter, $\delta$.
-%This must also be done in a careful way and not simply by changing the Euler angles uniformly and independently.
-%One example algorithm to perturb orientation proceeds as follows.
-%Generate a random quaternion, $\mathbf{q}$, uniformly on the surface of a sphere \cite{vesely_angular_1982}.
-%If the original particle orientation is represented by a quaternion, $\mathbf{q}_o$, then the newly proposed orientation is given by the quaternion $\mathbf{q}_n=\frac{\mathbf{q}_o+\delta\mathbf{q}}{|\mathbf{q}_o+\delta\mathbf{q}|}$.
-%If the original particle orientation is represented by a collection of coordinates, use $\mathbf{q}_o=[0, 0, 0, 1]$ (which corresponds to an identity rotation matrix) to generate a rotation matrix from $\mathbf{q}_n$ to perturb the coordinates.
-%Because of the use of the tunable parameter, $P_{\omega n}$ and $P_{\omega o}$ are equal to each other and therefore cancel one another in Eq.~\ref{eq:lhs_rotate}.
-
 A larger tunable parameter, $\delta\theta_{max}$, leads to a larger rotation, and thus $\delta\theta_{max}$ may be tuned in the same manner as the translation tunable parameter to reach a target acceptance for each species.
 To avoid violating detailed balance, this tunable parameter should remain constant during the production simulations for the same reason as shown in Fig.~\ref{fig:lhs_nvt}.
 
-Code Block~\ref{sim:orientation_trials} tests Eqs.~\ref{eq:rotation_matrix} and \ref{eq:lhs_rhs_rot_fwdrev} with the simulation of the orientation of a single rigid body in $3$ dimensions.
-Because there is no energy of interaction, the expected orientation distribution is uniform on the surface of a sphere.
-In spherical coordinates, this is given by uniform distribution of the azimuthal angle $\in [-\pi,\pi]$, which is defined as the angle between the x-axis and the projection of the vector on the x-y plane, and a sine distribution for the polar angle $\in [0,\pi]$, which is the angle between the z-axis and the vector.
+Code Block~\ref{sim:orientation_trials} tests Eqs.~\ref{eq:rotation_matrix} and \ref{eq:lhs_rotate} with the simulation of the orientation of a single rigid body given by two orthogonal unit vectors in $3$ dimensions.
+Because there is no energy of interaction, the unit vectors are expected to be uniformly distributed on the surface of a sphere.
+In spherical coordinates, this manifests as a uniform distribution of the azimuthal angle $\in [-\pi,\pi]$, which is defined as the angle between the x-axis and the projection of the vector on the x-y plane, and a sine distribution for the polar angle $\in [0,\pi]$, which is the angle between the z-axis and the vector.
+While this azimuthal and polar angle of the first vector fully specifies the orientations of rigid bodies with an axis of symmetry, generic rigid bodies also require analysis of a third angle.
+That third angle was chosen to be the azimuthal angle of the second vector in the reference frame of the first vector.
+The reference frame was defined by the minimal rotation of the coordinate axes such that the z-axis aligns with the first vector.
 These analytical expectations are compared against the MC simulation in Fig.~\ref{fig:orientation_trials}.
 
 \begin{figure}
 \lstinputlisting[
 language=Python,
 label={sim:orientation_trials},
-  caption={MC simulation of a single rigid body in three dimensions using Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ MC trials) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
+  caption={MC simulation of a single rigid body represented by two orthogonal unit vectors in three dimensions implemented in Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ MC trials) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
 ]{../codes/orientation_trials.py}
 \end{figure}
 
@@ -662,7 +649,7 @@ label={sim:orientation_trials},
 \begin{centering}
 \includegraphics[width=8.5cm]{../figures/orientation_trials.pdf}
 \caption{
-  The (blue) azimuthal and (red) polar probability distributions from the MC simulations described in Code Block~\ref{sim:orientation_trials} with error bars from the standard deviation of the mean of $10$ independent simulations, and theoretical expressions shown by the black lines.
+  The (blue) azimuthal and (red) polar probability distributions of the first vector and (orange) azimuthal angle of the second vector in the reference frame of the first vector from MC simulations described in Code Block~\ref{sim:orientation_trials} with error bars from the standard deviation of the mean of $20$ independent simulations, and analytical expectations shown by the black lines.
 \label{fig:orientation_trials}
 }
 \end{centering}

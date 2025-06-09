@@ -574,23 +574,19 @@ C + (1 - C) u_x^2 & (1 - C) u_x u_y - S u_z & (1 - C) u_x u_z + S u_y \\
 \end{equation}
 where $C =\cos\theta$ and $S = \sin\theta$.
 The new coordinate of interaction site $j$ on particle $i$ at ${\bf r}_i$ is given by ${{\bf r}_{ij,{\rm n}}={\bf r}_{i}}+{\mathbf R}({\bf r}_{ij,{\rm o}}-{\bf r}_i)$.
-If ${\bf r}_i$ is chosen as the centroid of the particle, then the centroid will be unchanged by the rotation (complementing the translation move, which leaves the orientation unchanged).
+If the particle's centroid is chosen for ${\bf r}_i$, then the centroid will be unchanged by the rotation (complementing the translation move, which leaves the orientation unchanged).
 However, using the centroid for ${\bf r}_i$ is not a requirement; any well-defined center for the rotation may be employed (e.g., the position of a specific interaction site).
 
-%Alternatively, if the orientation coordinate is held explicitly (e.g., as a quaternion), then it can be updated from $\hat{\bf u}$ and $\theta$ using an appropriate formula.
+Alternatively, if the orientation coordinate is held explicitly (e.g., as a quaternion), then it can be updated from $\hat{\bf u}$ and $\theta$ using an appropriate formula.
 
-Regardless of the selected centroid, the transition probabilities are given in terms of the axis-angle selection process outlined above.
+%Axis-angle is suitable for orientation displacement of particles of any symmetry. However, it is not suitable for generating a random orientation from scratch, i.e. by selecting $\delta = 2\pi$. Generating a random quaternion is best for this.
+Regardless of the selected center for the rotation, the transition probabilities are given in terms of the axis-angle selection process outlined above.
 The elements of the transition probabilities for the particle orientation trial are summarized in Table~\ref{tab:lhs_rotation}.
 Together they yield the forward and reverse probabilities, which in this case are again equal
 \begin{equation}
   \alpha_{o\rightarrow n}=\alpha_{n\rightarrow o} = \frac{\diff\mathbf{\omega}\diff\theta}{N_m 4\pi\delta\theta_{max}}.
 \label{eq:lhs_rhs_rot_fwdrev}
 \end{equation}
-
-%Instead, the orientation of a single particle may be perturbed in a separate trial move which proceeds as follows.
-%A particle is randomly chosen among $N_m$ mobile particles.
-%A new orientation of that particle is then chosen according to the probability $P_{\omega n}\diff\boldsymbol{\omega}$.
-%The transition probabilities for the particle orientation trial are summarized in Table~\ref{tab:lhs_rotation}.
 
 \begin{table}
 \begin{center}
@@ -629,6 +625,9 @@ To simplify notation, all remaining trial moves which include changes in orienta
 A larger tunable parameter, $\delta\theta_{max}$, leads to a larger rotation, and thus $\delta\theta_{max}$ may be tuned in the same manner as the translation tunable parameter to reach a target acceptance for each species.
 To avoid violating detailed balance, this tunable parameter should remain constant during the production simulations for the same reason as shown in Fig.~\ref{fig:lhs_nvt}.
 
+If desired, generation of orientations from scratch, without perturbing on an existing orientation, is best accomplished by random generation of a quaternion.
+An example of randomly picking quaternions, and thus orientations, is shown in Section~\ref{sec:unit_sphere}.
+
 Code Block~\ref{sim:orientation_trials} tests Eqs.~\ref{eq:rotation_matrix} and \ref{eq:lhs_rotate} with the simulation of the orientation of a single rigid body given by two orthogonal unit vectors in $3$ dimensions.
 Because there is no energy of interaction, the unit vectors are expected to be uniformly distributed on the surface of a sphere.
 In spherical coordinates, this manifests as a uniform distribution of the azimuthal angle $\in [-\pi,\pi]$, which is defined as the angle between the x-axis and the projection of the vector on the x-y plane, and a sine distribution for the polar angle $\in [0,\pi]$, which is the angle between the z-axis and the vector.
@@ -641,7 +640,7 @@ These analytical expectations are compared against the MC simulation in Fig.~\re
 \lstinputlisting[
 language=Python,
 label={sim:orientation_trials},
-  caption={MC simulation of a single rigid body represented by two orthogonal unit vectors in three dimensions implemented in Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ MC trials) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
+caption={MC simulation of a single rigid body represented by two orthogonal unit vectors in three dimensions implemented in Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ MC trials) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
 ]{../codes/orientation_trials.py}
 \end{figure}
 
@@ -1348,7 +1347,7 @@ Eqs.~\ref{eq:gibbs_transfer} and \ref{eq:gibbs_transfer_v} are tested in an idea
 \lstinputlisting[
 language=Python,
 label={sim:gibbs},
-caption=MC simulation of an ideal gas in the Gibbs ensemble with mechanical and chemical equilibrium using Python3 should yield two domains with equivalent number of particles and volume.
+caption={MC simulation of an ideal gas in the Gibbs ensemble with mechanical and chemical equilibrium using Python3 should yield two domains with equivalent number of particles and volume.}
 ]{../codes/ideal_gas_gibbs.py}
 \end{figure}
 
@@ -2459,12 +2458,12 @@ If the maximum translation is smaller than the periodic boundary, correlations i
 \lstinputlisting[
 language=Python,
 label={sim:statistics},
-caption=The statistics module computes the mean and the standard deviation of the mean using blocks.
+caption={The statistics module computes the mean and the standard deviation of the mean using blocks.}
 ]{../codes/statistics.py}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\label{sec:unit_sphere}Random position on a unit sphere surface}
+\subsubsection{\label{sec:unit_sphere}Random position on a unit sphere surface and random orientation}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %In the example shown in Code Block~\ref{sim:unit_sphere}, positions are generated uniformly on the surface of a sphere.
@@ -2474,31 +2473,34 @@ caption=The statistics module computes the mean and the standard deviation of th
 %Code Block~\ref{sim:quaternion} also shows how quaternions may be randomly generated to represent a uniformly random point on the surface of a sphere \cite{vesely_angular_1982}.
 %Code Block~\ref{sim:rotationmatrix} uses these randomly generated quaternions to compute rotation matrices.
 %A randomly generated perturbation of orientation is then demonstrated in Fig.~\ref{fig:random_orientation}.
-Situations arise where one needs to generate a point at random uniformly on the surface of a sphere in 3D.  This is equivalent to defining an isotropically random direction or a randomly oriented unit vector. There are several ways to approach this: (1) sample the spherical coordinates $\theta$ and $\phi$, appropriately weighted; (2) use a rejection method to generate a point uniformly inside a sphere, i.e., repeatedly sample in a cube that circumscribes the sphere until the sample is also in the sphere, and then normalize the sampled point to a unit vector; (3) sample the $x$, $y$ and $z$ coordinates on independent Gaussian distributions, which yields a point samplied from a spherically symmetric 3D probability density, and normalize to a unit vector. The first method listed here is illustrated in Code Block~\ref{sim:unit_sphere}.
+Situations arise where one needs to generate a point at random uniformly on the surface of a sphere in 3D.  This is equivalent to defining an isotropically random direction or a randomly oriented unit vector. There are several ways to approach this: (1) sample the spherical coordinates $\theta$ and $\phi$, appropriately weighted; (2) use a rejection method to generate a point uniformly inside a sphere, i.e., repeatedly sample in a cube that circumscribes the sphere until the sample is also in the sphere, and then normalize the sampled point to a unit vector; (3) sample the $x$, $y$ and $z$ coordinates on independent Gaussian distributions, which yields a point sampled from a spherically symmetric 3D probability density, and normalize to a unit vector. The first method listed here is illustrated in Code Block~\ref{sim:unit_sphere}.
 
-Code Block~\ref{sim:rotationmatrix} implements Eq.~\ref{eq:rotation_matrix} which are used to generate orientation-change trials in Code Block~\ref{sim:random_orientation} with the axis-angle method shown in Fig.~\ref{fig:random_orientation}.
+A similar problem is sampling a quaternion, which may be interpreted as a point on the surface of a unit 4D-hypersphere.
+Accordingly, Code Block~\ref{sim:quaternion} shows how quaternions may be randomly generated by sampling uniformly on the surface of a 4D hypersphere using an efficient rejection method \cite{vesely_angular_1982}.
+Code Block~\ref{sim:rotationmatrix} uses these randomly generated quaternions to compute rotation matrices, which could be used to generate a fully random orientation by rotating from an arbitrary reference orientation.
+Finally, a randomly generated perturbation of orientation is shown using the axis-angle method in Code Block~\ref{sim:random_orientation} and Fig.~\ref{fig:random_orientation}.
 
 \begin{figure}
 \lstinputlisting[
 language=Python,
 label={sim:unit_sphere},
-caption=The unit\_sphere module generates randomly uniform positions on the surface of a unit sphere in three dimensions.
+caption={The unit\_sphere module generates randomly uniform positions on the surface of a unit sphere in three dimensions.}
 ]{../codes/unit_sphere.py}
 \end{figure}
 
-%\begin{figure}
-%\lstinputlisting[
-%language=Python,
-%label={sim:quaternion},
-%caption=The quaternion module generates a random quaternion about the surface of a 4-dimensional hypersphere.
-%]{../codes/quaternion.py}
-%\end{figure}
+\begin{figure}
+\lstinputlisting[
+language=Python,
+label={sim:quaternion},
+caption={The quaternion module generates a random quaternion by sampling on the surface of a 4-dimensional hypersphere.}
+]{../codes/quaternion.py}
+\end{figure}
 
 \begin{figure}
 \lstinputlisting[
 language=Python,
 label={sim:rotationmatrix},
-caption=The rotation\_matrix module generates a rotation matrix from an axis and angle.
+caption={The rotation module generates a rotation matrix from an axis and angle or a quaternion. The first index is the row and the second index is the column, each starting with an index of zero.}
 ]{../codes/rotation.py}
 \end{figure}
 
@@ -2506,16 +2508,16 @@ caption=The rotation\_matrix module generates a rotation matrix from an axis and
 \lstinputlisting[
 language=Python,
 label={sim:random_orientation},
-caption=Visualize randomly uniform perturbations in three dimensional particle orientations.
+caption={Visualize randomly uniform perturbations in three dimensional particle orientations.}
 ]{../codes/random_orientation.py}
 \end{figure}
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=6cm]{../figures/random_orientation.png}
+\includegraphics[width=8.5cm]{../figures/random_orientation.png}
 \caption{
 The output from Code Block~\ref{sim:random_orientation} shows $10^3$ uniformly random blue unit vectors emanating from the origin.
-The other $10^3$ orange unit vectors are confined to the top hemisphere because they were randomly generated with the axis-angle method by perturbing the orientation of an upwards $z$-axis vector (shown in black) with a maximum angle parameter, $\delta \theta_{max}=\pi/2=90$ degrees.
+The other $10^3$ orange unit vectors are confined to the top hemisphere because they were randomly generated with the axis-angle method by perturbing the orientation of an upwards $z$-axis vector (shown in black) with a maximum angle parameter, $\delta \theta_{max}=\pi=180$ degrees.
 \label{fig:random_orientation}
 }
 \end{centering}
@@ -2532,7 +2534,7 @@ This is used to generate new trial positions with the AV of target isotropic sit
 \lstinputlisting[
 language=Python,
 label={sim:spherical_shell},
-caption=Visualize randomly uniform positions in a spherical shell in three dimensions.
+caption={Visualize randomly uniform positions in a spherical shell in three dimensions.}
 ]{../codes/spherical_shell.py}
 \end{figure}
 

@@ -13,6 +13,6 @@ __pycache__
 *.suppinfo
 paper.pdf
 diff.pdf
-diff.tex
+diff*.tex
 paperNotes.bib
 

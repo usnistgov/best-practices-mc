@@ -13,3 +13,16 @@ def axis_angle(axis, angle):
     rtmx[1][2] = (1-cos)*axis[1]*axis[2] - sin*axis[0]
     rtmx[2][2] = cos + (1-cos)*axis[2]**2
     return rtmx
+
+def quaternion(q):
+    rtmx = np.empty(shape=(3,3))
+    rtmx[0][0] = q[0]*q[0] - q[1]*q[1] - q[2]*q[2] +q[3]*q[3]
+    rtmx[1][0] = 2*(q[0]*q[1] + q[2]*q[3])
+    rtmx[2][0] = 2*(q[2]*q[0] - q[1]*q[3])
+    rtmx[0][1] = 2*(q[0]*q[1] - q[2]*q[3])
+    rtmx[1][1] = q[1]*q[1] - q[2]*q[2] - q[0]*q[0] +q[3]*q[3]
+    rtmx[2][1] = 2*(q[1]*q[2] + q[0]*q[3])
+    rtmx[0][2] = 2*(q[2]*q[0] + q[1]*q[3])
+    rtmx[1][2] = 2*(q[1]*q[2] - q[0]*q[3])
+    rtmx[2][2] = q[2]*q[2] - q[0]*q[0] - q[1]*q[1] +q[3]*q[3]
+    return rtmx

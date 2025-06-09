@@ -35,7 +35,7 @@ hist = np.zeros(shape=(num_sims, len(angs), 2, num_bins))
 for sim in range(num_sims):
     x = [[1, 0, 0], [0, 1, 0]]
     xyz = np.zeros(shape=(num_trials, 2, 3))
-    dt_max = np.pi  # randomize first orientation
+    dt_max = 2*np.pi  # randomize first orientation
     for ixyz,_ in enumerate(xyz):
         angle = dt_max*random.uniform(-0.5, 0.5)
         dt_max = np.pi/10  # smaller perturbations of rest

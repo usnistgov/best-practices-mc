@@ -82,4 +82,4 @@ newax.imshow(im)
 newax.axis('off')
 
 #plt.show()
-plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)
+plt.savefig(basename+'.png', bbox_inches='tight', transparent=True, dpi=300)

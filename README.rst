@@ -3,6 +3,8 @@ Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations
 
 This repository contains all the files needed to create the manuscript "Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations v1.0"
 
+See the releases folder for a PDF of the manuscript.
+
 The figures may be generated as follows:
 
 .. code-block:: bash

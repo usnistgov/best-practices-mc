@@ -518,7 +518,7 @@ for the Metropolis acceptance of translation trials.
 \lstinputlisting[
 language=Python,
 label={sim:nvt_harmonic},
-caption={MC simulation of a single particle in one dimension attached to a harmonic spring using Python3, where the statistics module is provided in Section~\ref{sec:block_av}. Note that a random number generator seed of "43279857" is provided so that the simulation is reproducible.}
+caption={MC simulation of a single particle in one dimension attached to a harmonic spring using Python 3, where the statistics module is provided in Section~\ref{sec:block_av}. Note that a random number generator seed of "43279857" is provided so that the simulation is reproducible.}
 ]{../codes/nvt_harmonic.py}
 \end{figure}
 
@@ -766,7 +766,7 @@ Code Block~\ref{sim:ideal_gas_npt} uses Eq.~\ref{eq:lhs_dv} or Eq.~\ref{eq:lhs_d
 \lstinputlisting[
 language=Python,
 label={sim:ideal_gas_npt},
-caption={MC simulation of an ideal gas in the $NPT$ ensemble using Python3 with a shell particle and uniform changes in $V$ or $\ln V$, and the statistics module is provided in Section~\ref{sec:block_av}.}
+caption={MC simulation of an ideal gas in the $NPT$ ensemble using Python 3 with a shell particle and uniform changes in $V$ or $\ln V$, and the statistics module is provided in Section~\ref{sec:block_av}.}
 ]{../codes/ideal_gas_npt.py}
 \end{figure}
 
@@ -774,7 +774,7 @@ caption={MC simulation of an ideal gas in the $NPT$ ensemble using Python3 with 
 \subsection{\label{sec:rhs_npt_no_shell}Isothermal-isobaric ensemble with a shell particle}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-If a shell particle is introduced to remove redundant microstates in the partition function~\cite{attard_density_1995, koper_length_1996, corti_deriving_1998, han_isothermal-isobaric_2001, corti_isothermal-isobaric_2001, corti_monte_2002, stroker_systematic_2021, hatch_theory_2024}, then there is one less particle that is scaled by the volume and Eqs.~\ref{eq:rhs_npt_pi}, \ref{eq:rhs_npt_delta_v} and \ref{eq:rhs_npt_delta_lnv} become 
+If a shell particle is introduced to remove redundant microstates in the partition function~\cite{attard_density_1995, koper_length_1996, corti_deriving_1998, han_isothermal-isobaric_2001, corti_isothermal-isobaric_2001, corti_monte_2002, stroker_systematic_2021, hatch_theory_2024}, then there is one less particle that is scaled by the volume and Eqs.~\ref{eq:rhs_npt_pi}, \ref{eq:rhs_npt_delta_v} and \ref{eq:rhs_npt_delta_lnv} become
 \begin{equation}
 \Pi \diff\mathbf{s}^{N-1}\diff\boldsymbol{\omega}^{N}\diff V \propto V^{N-1} e^{-\beta(U+P V)} \diff\mathbf{s}^{N-1} \diff\boldsymbol{\omega}^{N}\diff V,
 \end{equation}
@@ -941,14 +941,14 @@ Thus, the acceptance probability for deletions is given by
 \chi = \frac{P_{\omega o} N_i}{Vz_i}e^{-\beta\Delta U},
 \label{eq:lhs_del}
 \end{equation}
-where $P_{\omega o}=1$ (or incorporated into the definition of $z_i$) if rigid bodies are inserted with random orientations (using quaternsions, as discussed in Section~\ref{sec:lhs_rotation} and \ref{sec:unit_sphere}), or otherwise related to the Rosenbluth factor in CB \cite{frenkel_understanding_2002}.
+where $P_{\omega o}=1$ (or incorporated into the definition of $z_i$) if rigid bodies are inserted with random orientations (using quaternions, as discussed in Section~\ref{sec:lhs_rotation} and \ref{sec:unit_sphere}), or otherwise related to the Rosenbluth factor in CB \cite{frenkel_understanding_2002}.
 Code Block~\ref{sim:ideal_gas_muvt} uses Eqs.~\ref{eq:lhs_ins} and \ref{eq:lhs_del} for an ideal gas to compare against theory, Eq.~\ref{eq:gce_ideal_gas_density}.
 
 \begin{figure}
 \lstinputlisting[
 language=Python,
 label={sim:ideal_gas_muvt},
-caption={MC $\mu VT$ simulation of an ideal gas using Python3, and the statistics module is provided in Section~\ref{sec:block_av}.}
+caption={MC $\mu VT$ simulation of an ideal gas using Python 3, and the statistics module is provided in Section~\ref{sec:block_av}.}
 ]{../codes/ideal_gas_muvt.py}
 \end{figure}
 
@@ -1096,7 +1096,7 @@ Eq.~\ref{eq:chisgcmc} is tested against an $n=2$ component ideal gas mixture in 
 \lstinputlisting[
 language=Python,
 label={sim:ideal_gas_sgcmc},
-caption={Semi-$\mu VT$ MC of a two component ideal gas mixture using Python3, and the statistics module is provided in Section~\ref{sec:block_av}.}
+caption={Semi-$\mu VT$ MC of a two component ideal gas mixture using Python 3, and the statistics module is provided in Section~\ref{sec:block_av}.}
 ]{../codes/ideal_gas_sgcmc.py}
 \end{figure}
 
@@ -1166,7 +1166,7 @@ Eq.~\ref{eq:chisgcmc_alt} is tested against an ideal gas mixture in Code Block~\
 \lstinputlisting[
 language=Python,
 label={sim:ideal_gas_sgcmc_alt},
-caption={Alternative algorithm for semi-$\mu VT$ MC of an ideal gas mixture using Python3, and the statistics module is provided in Section~\ref{sec:block_av}.}
+caption={Alternative algorithm for semi-$\mu VT$ MC of an ideal gas mixture using Python 3, and the statistics module is provided in Section~\ref{sec:block_av}.}
 ]{../codes/ideal_gas_sgcmc_alt.py}
 \end{figure}
 
@@ -1268,7 +1268,7 @@ Eq.~\ref{eq:gibbs_transfer} is tested in an ideal gas simulation demonstrated in
 \lstinputlisting[
 language=Python,
 label={sim:gibbs_particle},
-caption={MC simulation of an ideal gas in the Gibbs ensemble with chemical equilibrium using Python3 should yield two domains with equivalent density, and the statistics module is provided in Section~\ref{sec:block_av}.}
+caption={MC simulation of an ideal gas in the Gibbs ensemble with chemical equilibrium using Python 3 should yield two domains with equivalent density, and the statistics module is provided in Section~\ref{sec:block_av}.}
 ]{../codes/ideal_gas_gibbs_particle.py}
 \end{figure}
 
@@ -1331,7 +1331,7 @@ Eq.~\ref{eq:gibbs_transfer_v} is tested in an ideal gas simulation demonstrated 
 \lstinputlisting[
 language=Python,
 label={sim:gibbs_volume},
-caption={MC simulation of an ideal gas in the Gibbs ensemble with mechanical equilibrium using Python3 should yeild two domains with equivalent density, and the statistics module is provided in Section~\ref{sec:block_av}.}
+caption={MC simulation of an ideal gas in the Gibbs ensemble with mechanical equilibrium using Python 3 should yield two domains with equivalent density, and the statistics module is provided in Section~\ref{sec:block_av}.}
 ]{../codes/ideal_gas_gibbs_volume.py}
 \end{figure}
 
@@ -1348,7 +1348,7 @@ Eqs.~\ref{eq:gibbs_transfer} and \ref{eq:gibbs_transfer_v} are tested in an idea
 \lstinputlisting[
 language=Python,
 label={sim:gibbs},
-caption={MC simulation of an ideal gas in the Gibbs ensemble with mechanical and chemical equilibrium using Python3 should yield two domains with equivalent number of particles and volume.}
+caption={MC simulation of an ideal gas in the Gibbs ensemble with mechanical and chemical equilibrium using Python 3 should yield two domains with equivalent number of particles and volume.}
 ]{../codes/ideal_gas_gibbs.py}
 \end{figure}
 

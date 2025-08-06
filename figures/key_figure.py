@@ -1,9 +1,11 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 fig, ax = plt.subplots()
 
@@ -80,4 +82,5 @@ newax.imshow(im)
 newax.axis('off')
 
 #plt.show()
-plt.savefig('key_figure.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.jpg', bbox_inches='tight', transparent=True, dpi=300)

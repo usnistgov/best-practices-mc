@@ -1,7 +1,9 @@
+import os
 import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 circles=[
 [-0.5, 1.2], [0.7, 1.2],
@@ -38,4 +40,4 @@ plt.axis('scaled')
 plt.axis('off')
 plt.xlim([-1., 1.])
 plt.ylim([-1., 1.])
-plt.savefig('dccb_draw.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

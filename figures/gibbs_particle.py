@@ -1,9 +1,11 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 def vapor_box(x_shift, y_shift, extra):
     xyzs=[
@@ -52,4 +54,4 @@ plt.text(4, 0, '+', fontsize=28, horizontalalignment='center', verticalalignment
 liquid_box(4, -3, extra=True)
 plt.axis('scaled')
 plt.axis('off')
-plt.savefig('gibbs_particle.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

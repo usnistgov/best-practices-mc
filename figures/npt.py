@@ -1,9 +1,11 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 plt.gca().add_patch(plt.Rectangle(xy=(-2, -2), width=4, height=4, fc='none', ec='black', lw=2))
 plt.gca().add_patch(plt.Circle((-0.5, 1.75),0.25, fc='black'))
@@ -37,4 +39,4 @@ plt.text(-3.25,1.25-0.3, 'no\nparticle\nscaling', horizontalalignment='center', 
 plt.axis('scaled')
 plt.axis('off')
 #plt.show()
-plt.savefig('npt.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

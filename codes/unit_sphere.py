@@ -10,7 +10,7 @@ def uniform_surface(radius=1):
             radius*np.cos(phi)]
 
 def plot(ax):
-    x = np.empty(shape=(int(1e3), 3))
-    for i, _ in enumerate(x):
-        x[i] = uniform_surface()
-    ax.scatter(x[:, 0], x[:, 1], x[:, 2])
+    for i in range(int(1e4)):
+        x = uniform_surface()
+        ax.plot([0, x[0]], [0, x[1]], [0, x[2]],
+                color='blue', alpha=0.025)

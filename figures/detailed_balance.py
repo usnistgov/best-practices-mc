@@ -1,9 +1,11 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['OpenSans']})
 rc('text', usetex=True)
+basename = os.path.basename(__file__)[:-3]
 
 diff=5
 csize=2
@@ -71,4 +73,4 @@ plt.gca().annotate("", xy=(1, -3), xytext=(3, -1), arrowprops=dict(arrowstyle="<
 plt.axis('scaled')
 plt.axis('off')
 #plt.show()
-plt.savefig('detailed_balance.png', bbox_inches='tight', transparent=True, dpi=300)
+plt.savefig(basename+'.pdf', bbox_inches='tight', transparent=True)

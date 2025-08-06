@@ -1,6 +1,6 @@
-latexdiff paperv0.1.tex paperv1.0.tex > diffv1.0.tex
-#for b in paperv1.0; do
-for b in diffv1.0; do
+#latexdiff paperv0.1.tex paperv1.0.tex > diffv1.0.tex
+for b in paperv1.0; do
+#for b in diffv1.0; do
 #for b in paperv1.0 diffv1.0; do
 
 rm *.aux

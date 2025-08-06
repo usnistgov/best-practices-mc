@@ -34,6 +34,16 @@ The ideal gas tests can be run as follows:
 Some codes files are redundant with figure files.
 This is intentional, because code blocks present in the manuscript are shortened to fit the page.
 
+Contributing
+================================================================================
+
+Contact the authors if interested in contributing to this article.
+To learn more about contributing to articles within this journal, visit https://livecomsjournal.github.io/about/.
+The branch naming policy for this repository is as follows.
+The main branch is the major public release version of the manuscript where changes require review and acceptance by journal editors.
+Changes to the manuscript begin in user-created feature branches with names beginning with the author initials.
+When the feature branch is considered acceptable by co-authors, the minor version number increases and this feature branch is renamed with the new version and squash-merged into the development branch.
+
 Disclaimer
 ================================================================================
 

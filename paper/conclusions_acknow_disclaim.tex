@@ -1,0 +1,25 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sec:conc}Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We provided a framework for deriving the Metropolis MC acceptance probabilities in the $NVT$, $NPT$, (semi)-$\mu VT$ and Gibbs ensembles with a detailed checklist for generating unbiased trials in each of these ensembles.
+Discussions of how detailed balance may be violated, as well as code examples to compare ideal gas MC results with theoretical predictions, were provided.
+The checklist was applied with a table format for generating the transition probabilities to help reduce errors.
+We considered complex trials with bias, which include the illustrations and tables but not code examples.
+Finally, a discussion of common implementation issues in MC were included, along with code examples.
+It is our hope that this article will make MC molecular simulation methodology development more accessible in general to researchers.
+When implementing complex MC trials, we recommend first testing with a number of models and thermodynamic conditions, starting with the simplest and fastest ideal gas simulation.
+
+We encourage readers to comment upon this guide using the issue tracker of the GitHub repository [\url{https://github.com/usnistgov/best-practices-mc}].
+There are many more methods we would like to add to this guide.
+Future versions may include the following MC methods: orientation bias, Mayer sampling, expanded ensembles, geometric cluster algorithm, shell particles, bond, angle and branch algorithms and tests.
+%k=0 for sin(theta) distributions according to random point picking.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sec:ack}Acknowledgements and Disclaimer}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This article was funded by NIST and is not subject to U.S. Copyright.
+Certain commercial firms and trade names are identified in order to specify the usage procedures adequately for reproducibility.
+Such identification is not intended to imply recommendation or endorsement by the National Institute of Standards and Technology, nor is it intended to imply that related products are necessarily the best available for the purpose.
+Support to D.A.K. from the National Science Foundation (CBET-2152946) and the Schmid Family Foundation is gratefully acknowledged.

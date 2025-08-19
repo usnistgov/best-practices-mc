@@ -1,0 +1,87 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sec:intro}Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Monte Carlo (MC) molecular simulation has for the last seventy years provided a very powerful tool for statistical mechanics.
+Beginning with Metropolis MC of two-dimensional hard disks in the canonical ($NVT$) ensemble \cite{metropolis_equation_1953, rosenbluth_further_1954}, MC expanded to include chains \cite{rosenbluth_monte_1955}, the isothermal-isobaric ($NPT$) ensemble \cite{wood_monte_1968}, the grand-canonical ensemble ($\mu VT$) \cite{norman_investigation_1969, adams_grand_1975}, the semi-grand-canonical (semi-$\mu VT$) ensemble \cite{kofke_monte_1988} and the Gibbs ensemble \cite{panagiotopoulos_direct_1987}.
+Specialized techniques were developed to improve sampling of the various relevant microstates, such as configurational bias (CB) \cite{rosenbluth_monte_1955, siepmann_configurational_1992}, expanded ensembles \cite{lyubartsev_new_1992} and growth expanded ensemble methods \cite{escobedo_expanded_1996}.
+A variety of MC methods were also developed to simulate phase behavior and equations of state, such as Gibbs-Duhem \cite{kofke_gibbs-duhem_1993}, Wang-Landau \cite{wang_efficient_2001}, transition-matrix \cite{fitzgerald_canonical_1999, errington_direct_2005}, Mayer-sampling \cite{singh_mayer_2004} and continuous fractional component \cite{shi_continuous_2007}.
+
+The usefulness of MC molecular simulations is also evidenced by a number of available software packages, including but not limited to Towhee \cite{martin_MCCCS_2013}, BOSS \cite{jorgensen_molecular_2005}, MCPRO \cite{jorgensen_molecular_2005}, Etomica \cite{schultz_etomica_2015}, MUSIC \cite{gupta_object-oriented_2003}, DL\_MONTE \cite{brukhno_dl_monte_2021}, Cassandra \cite{shah_cassandra_2017}, Faunus \cite{lund_faunus_2008}, RASPA \cite{dubbeldam_raspa_2016}, GOMC \cite{nejahi_gomc_2019}, SIMONA \cite{penaloza-amion_monte-carlo_2021}, ESPResSo \cite{limbach_espressoextensible_2006}, MCCCS-MN \cite{sun_deep_2019} and FEASST \cite{hatch_monte_2024}.
+However, analysis of citation data shows there are many more widely used molecular dynamics (MD) \cite{alder_phase_1957} software than MC software \cite{talirz_trends_2021}.
+Comparison between MC and MD may help in understanding the reasons for the current popularity of MD and the need for a more accessible approach to developing and implementing MC.
+
+The major differences between MC and MD is that MD uses the physical laws of motion to sample configurations of the system, while MC does not have such a requirement \cite{allen_computer_1989, frenkel_understanding_2002}.
+Visualization of MD trajectories is more conceptually simple for a user to understand and present to a general audience.
+MD is also capable of computing time-dependent dynamic quantities such as diffusion or viscosity, while nonphysical trial moves typically confine MC to only equilibrium thermodynamic properties.
+These benefits in MD come with a few trade-offs relative to MC.
+MD simulations may not be feasible for the required timescale of a physical process of interest.
+In contrast, MC is not constrained to any physical laws of motion, and because of this, MC may be quite powerful because ``non-physical" trial moves may be performed, which significantly speed up the equilibration of the system or free a system trapped in a local free energy minimum, thus making it a powerful tool for determining equilibrium properties \cite{frenkel_understanding_2002, barhaghi_py-mcmd_2022, henin_enhanced_2022}.
+
+In MD, the sampling of collective motion with many bonded potentials and holonomic constraints is a general, broadly applicable approach to simulate a variety of complex molecules \cite{ryckaert_numerical_1977, andersen_rattle_1983}.
+In comparison, MC requires specialized trials that are chosen depending upon the molecules being simulated.
+Providing access to this specialization while maintaining broad applicability increases the software complexity of MC codes relative to MD.
+Still, there are some common features among different trials that MC codes can exploit to provide a robust, extensible framework.
+
+Invention of new MC trials is an avenue for the developer to apply imagination and creativity to make simulations much more efficient, or even make "impossible" calculations newly feasible.
+For example, recent methodological MC developments allow proteins to be modeled as a single anisotropic site with docking trials \cite{vakser_docking-based_2022} and while retaining atomistic resolution \cite{hatch_anisotropic_2024}.
+While there is a broad scope for the invention of MC trials, constraints exist that ensure they provide correct sampling of the ensemble.
+Formulating a systematic approach for deriving computationally efficient MC trials while adhering to these constraints is the challenge we hope to address in this article.
+
+In the simplest cases of an $NVT$ simulation of hard spheres or Lennard-Jones particles with periodic boundaries, MC is easier to implement than MD, which requires forces, velocities, integrators and thermostats.
+Instead, MC uses a random number generator to propose and decide acceptance of configuration changes according to the expected probability distributions.
+Also, as opposed to MD, MC is capable of simulating continuous, discontinuous and mixed potentials with the same basic algorithm.
+MD simulations may also struggle to reproduce the exact same trajectory as a previous simulation because the smallest differences in initial conditions lead to divergence via the Lyapunov instability \cite{posch_lyapunov_1988}, while exact reproduction of MC with a given random number generator seed may be simpler than in MD.
+
+Hybrid MC and MD methods may combine the strengths of both methods \cite{duane_hybrid_1987, hartmann_ergodic_2008, ghoufi_hybrid_2010, spiridon_hamiltonian_2017, guo_hybrid_2018, fass_quantifying_2018, barhaghi_py-mcmd_2022}.
+MD techniques have also been influenced by similar efforts in MC methods, including replica exchange \cite{swendsen_replica_1986, berg_multicanonical_1991, hukushima_exchange_1996, sugita_replica-exchange_1999}, thermostats and barostats \cite{andersen_molecular_1980} and metadynamics \cite{laio_escaping_2002}.
+Many of these MD techniques lead to nonphysical motion, which complicates the computation of dynamic quantities \cite{basconi_effects_2013}.
+From this perspective, some of the most popular uses of MD resemble MC while utilizing the physical laws of motion as an effective microcanonical ensemble sampling algorithm.
+Hence, improvements in the efficiency of MC simulations may also apply to hybrid MD/MC simulations.
+
+Because the position of all particles are updated simultaneously in MD, parallelization with domain decomposition \cite{plimpton_fast_1995} scales with the number of processors better than single-particle position updates in the typical MC approach.
+MC is not constrained to single-particle perturbations and may include collective motion of all particles with MC trials \cite{rao_force_1979, liu_rejection-free_2004, liu_generalized_2005, whitelam_avoiding_2007} or hybrid MD.
+Although MD provides many more examples of the largest molecular simulations ever conducted, MC in principle has more available parallelization strategies than MD.
+Both MC and MD are amenable to domain decomposition \cite{ren_acceleration_2006, anderson_scalable_2016} and replica exchange \cite{swendsen_replica_1986}, but MC may also parallelize with CB \cite{esselink_parallel_1995, vlugt_efficiency_1999}, waste recycling \cite{frenkel_speed-up_2004}, event-chain \cite{michel_generalized_2014} and prefetching \cite{brockwell_parallel_2006, calderhead_general_2014, hatch_parallel_2020}.
+
+Although parallelization of very large systems is seen in MD more than in MC, another effective approach is to circumvent the need for large systems altogether.
+For example, while MD simulations of phase coexistence often require a system size many times larger than the interface, Gibbs ensemble MC avoids explicitly simulating phase boundaries \cite{panagiotopoulos_direct_1987}, which enables the use of smaller system sizes.
+Similarly, $\mu VT$ simulations remove the spurious effect of the constraint on the number of particles in self-assembling systems \cite{floriano_micellization_1999, hatch_computational_2015}, while simulations with a constant number of particles require larger system sizes to ensure that the effect of this non-physical constraint is negligible.
+Sampling with $\mu VT$ flat-histogram methods improves the efficiency of simulations of phase separation, self-assembly and adsorption, relative to $NVT$ sampling, even when insertion and deletion acceptances are seemingly small \cite{hatch_efficiency_2023}.
+
+One of the goals of this article is to make it easier for researchers to derive novel MC trials that are needed to improve the sampling of their models under the thermodynamic conditions of interest.
+We provide a framework and checklist for how to derive the acceptance criteria for a wide variety of MC trials, while also demonstrating how to test the derivations.
+We explain a checklist approach for deriving acceptance criteria that identifies probabilities of every step in the MC trial implementation where random number generators are involved.
+Our hope is that this checklist approach is less prone to error than a purely theoretical one that is more decoupled from the implementation.
+For example, in the semi-$\mu VT$ ensemble, there is a clear difference in the acceptance probability based on how the particles are chosen \cite{kofke_monte_1988}.
+And in $\mu VT$ trial derivations, the checklist approach, where particles are distinguishable, is shown to give exactly the same acceptance criteria as the purely theoretical approach \cite{frenkel_understanding_2002}, where particles are considered indistinguishable.
+
+A variety of existing MC trials are derived to demonstrate the checklist approach to obtaining the acceptance criteria.
+Because the vast majority of MC trials derived in this article were published previously, interested readers should also reference those original papers.
+At least three aspects of the derivations in this article may not be available in the literature as far as we are aware.
+The first is the derivation of insertions and deletions without the requirement of indistinguishable particles.
+The second is the use of (dual-cut) CB (DCCB) \cite{vlugt_improving_1998} for $NVT$ displacements.
+And the third is a slightly different expression for cavity bias.
+
+Computational tests using an ideal gas are also demonstrated to be an important first validation step for any proposed MC trial \cite{hatch_theory_2024}.
+They are fast and easily implemented, requiring in nearly all cases only a few dozen lines of code (which are provided in this article).
+In addition, the results of these ideal gas simulations can be readily compared to known theoretical results.
+With an ideal gas, all terms in the derived acceptance probabilities may be tested except for those depending on the potential energy.
+
+The Living Journal of Computational Molecular Science (LiveCoMS) is an ideal forum for this work because many in the MC community may comment on or contribute to LiveCoMS articles.
+It is our hope that this document is a useful compendium that contains numerous MC trials which are otherwise derived in different ways and scattered throughout many research journals.
+In addition, any errors found in this article may be immediately commented upon by the community and addressed.
+
+This article is organized as follows.
+In Section~\ref{sec:detailed_balance}, the general equation for an MC trial acceptance probability is derived using detailed balance, resulting in the product of ratios of microstate and transition probabilities in the new and old microstates.
+A checklist approach for deriving an MC trial acceptance criterion is then developed in Section~\ref{sec:checklist}.
+After the description of the variables required to define a configuration are presented in Section~\ref{sec:configuration}, unbiased trials are derived, using the checklist approach, in the $NVT$, $NPT$, $\mu VT$, semi-$\mu VT$ and Gibbs ensembles in Sections~\ref{sec:rhs_nvt} to \ref{sec:rhs_gibbs}, respectively.
+An MC trial is considered unbiased when the transition probabilities do not depend upon the configuration.
+Each of these unbiased MC trials is also validated with an ideal-gas simulation provided in this article, which serves as a test of the acceptance criteria.
+Afterward, biased $\mu VT$ MC trials are derived using the checklist approach in Section~\ref{sec:lhs_gcmc_bias}, including CB, DCCB, cavity bias, energy bias and aggregation volume bias (AVB) \cite{chen_aggregation-volume-bias_2001}.
+Then, in Section~\ref{sec:lhs_nvt_bias}, biased $NVT$ trials are derived.
+Finally, implementation issues typically encountered in MC simulations are summarized in Section~\ref{sec:common_issues}, followed by conclusions in Section~\ref{sec:conc}.
+
+%\tableofcontents
+

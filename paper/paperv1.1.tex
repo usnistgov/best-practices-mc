@@ -1,0 +1,178 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LIVECOMS ARTICLE TEMPLATE FOR BEST PRACTICES GUIDE
+%%% ADAPTED FROM ELIFE ARTICLE TEMPLATE (8/10/2017)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PREAMBLE
+\documentclass[
+  9pt,
+  bestpractices,
+  pubversion,
+%  onehalfspacing, % option for 1.5 line spacing
+%  doublespacing, & option for 2.0 line spacing
+% Use the 'lineno, & option for adding line numbers.
+% Use the 'pubversion' option for adding the citation and publication information to the document footer, when the DOI is assigned and the article is added to a live issue.
+% The 'bestpractices' option for indicates that this is a best practices guide.
+% Omit the bestpractices option to remove the marking as a LiveCoMS paper.
+% Please note that these options may affect formatting.
+]{livecoms}
+
+\usepackage{lipsum} % Required to insert dummy text
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\usepackage{soul}
+\DeclareSIUnit\Molar{M}
+\usepackage[italic]{mathastext}
+\graphicspath{{../figures/}}
+
+% old packages from revtex
+%\usepackage{graphicx}% Include figure files
+%\usepackage{dcolumn}% Align table columns on decimal point
+%\usepackage{bm}% bold math
+%\usepackage{multirow,ctable,booktabs,colortbl}
+%\usepackage{xcolor} % for highlighting
+%\usepackage{footmisc} % footref
+
+% for a code block
+\usepackage{listings}
+\usepackage{color}
+%\usepackage{hyperref}
+\renewcommand{\lstlistingname}{Code Block}% Listing -> Algorithm
+%\renewcommand{\lstlistingname}{Simulation}% Listing -> Algorithm
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+%\lstset{frame=tb, % horizontal lines
+%\lstset{frame=none,
+%\renewcommand{\familydefault}{\sfdefault}
+\lstset{frame=tblr,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  %columns=flexible,
+  columns=fullflexible,
+  basicstyle={\footnotesize\sffamily},
+  %basicstyle={\small\sffamily},
+  %basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=3
+}
+
+% from https://tex.stackexchange.com/questions/2441/how-to-add-a-forced-line-break-inside-a-table-cell
+\usepackage{makecell} % for multi-line cells
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\angstrom}{\mbox{\normalfont\AA}}
+%\newcommand{\hdrule}{\midrule[\heavyrulewidth]}
+%\AtBeginDocument{
+%\heavyrulewidth=.05em
+%\lightrulewidth=.05em
+%\cmidrulewidth=.03em
+%\belowrulesep=0ex
+%\belowbottomsep=0pt
+%\aboverulesep=0.3ex
+%\abovetopsep=0pt
+%\cmidrulesep=\doublerulesep
+%\cmidrulekern=.5em
+%\defaultaddspace=.5em
+%}
+
+\newcommand{\AArm}{\ensuremath{\textrm{\AA}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% IMPORTANT USER CONFIGURATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\versionnumber}{1.0}  % you should update the minor version number in preprints and major version number of submissions.
+% Do not add a newline in the next command, no matter how long the repository name is, as it will break the link in the PDF.
+\newcommand{\githubrepository}{\url{https://github.com/usnistgov/best-practices-mc}}  %this should be the main github repository for this article.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Best Practices for Developing Monte Carlo Methodologies in Molecular Simulations [Article v\versionnumber]}
+
+\author[1*]{Harold W. Hatch}
+\author[2]{David S. Corti}
+\author[3]{David A. Kofke}
+\author[1]{Vincent K. Shen}
+\affil[1]{Chemical Informatics Research Group, Chemical Sciences Division, National Institute of Standards and Technology, Gaithersburg, Maryland 20899-8380, USA}
+\affil[2]{Purdue University, Davidson School of Chemical Engineering, West Lafayette, IN 47907, USA}
+\affil[3]{University at Buffalo, Department of Chemical and Biological Engineering, Buffalo, NY 14260, USA}
+
+\corr{harold.hatch@nist.gov}{HWH}  % Correspondence emails.  FMS and FS are the appropriate authors initials.
+
+\orcid{Harold W. Hatch}{0000-0003-2926-9145}
+\orcid{David S. Corti}{0000-0003-3289-3926}
+\orcid{David A. Kofke}{0000-0002-2530-8816}
+\orcid{Vincent K. Shen}{none}
+
+%\contrib[\authfn{1}]{These authors contributed equally to this work}
+%\contrib[\authfn{2}]{These authors also contributed equally to this work}
+%\presentadd[\authfn{3}]{Department, Institute, Country}
+%\presentadd[\authfn{4}]{Department, Institute, Country}
+
+\blurb{This LiveCoMS document is maintained online on GitHub at \githubrepository; to provide feedback, suggestions, or help improve it, please visit the GitHub repository and participate via the issue tracker.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PUBLICATION INFORMATION
+%%% Fill out these parameters when available
+%%% These are used when the "pubversion" option is invoked
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pubDOI{10.33011/livecoms.6.1.3289}
+\pubvolume{6}
+\pubissue{1}
+\pubyear{2025}
+\articlenum{3289}
+\datereceived{2 December 2024}
+\dateaccepted{14 July 2025}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+\maketitle
+
+\begin{abstract}
+Although Monte Carlo (MC) is a very powerful molecular simulation method in statistical mechanics, the development and application of novel MC trials to optimize sampling in complex systems is hindered by the difficulty in deriving their acceptance probabilities.
+We present a checklist approach to deriving acceptance probabilities, and apply this approach to a variety of trials in the canonical, isothermal-isobaric, grand-canonical, semi-grand canonical and Gibbs ensembles.
+The ideal gas is then shown to be a useful test case to compare the results of simulations with those from theoretical expectations, providing a computational benchmark that can be easily and rapidly implemented for determining if the acceptance criteria were derived correctly.
+More complex models and trials are also considered with this checklist approach, including configurational bias, cavity bias, energy bias, aggregation volume bias, dual-cut configurational bias and rigid cluster moves.
+The result is a framework designed to help researchers implement and test specialized MC trials that expand the model complexity and length scales currently available in open-source MC molecular simulation software.
+Sample code is also provided in the GitHub repository [\url{https://github.com/usnistgov/best-practices-mc}].
+\end{abstract}
+
+\end{frontmatter}
+
+\input{introduction.tex}
+\input{detailed_balance.tex}
+\input{checklist.tex}
+\input{configuration}
+\input{nvt_unbiased.tex}
+\input{npt_unbiased.tex}
+\input{muvt_unbiased.tex}
+\input{semigrand_unbiased.tex}
+\input{gibbs_unbiased.tex}
+\input{muvt_biased.tex}
+\input{nvt_biased.tex}
+\input{issues.tex}
+\input{conclusions_acknow_disclaim.tex}
+
+\section*{Author Information}
+\makeorcid
+
+\nocite{*}
+\bibliography{paper}
+\end{document}

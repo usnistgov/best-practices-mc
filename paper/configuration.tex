@@ -1,0 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sec:configuration}Description of a configuration with particles, coordinates and periodic boundaries}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this article, a configuration refers to the particles, coordinates and periodic boundaries.
+For an $n$-component system, the total number of particles, $N=\sum_{i}^{n} N_i$, where $N_i$ is the number of particles of type $i$.
+In bulk systems, there are no interactions of the particles with boundaries.
+To avoid spurious effects of walls or a container, and thereby minimizing the size of the simulated system needed to model the bulk, periodic boundary conditions are imposed such that particles interact with their nearest neighboring image \cite{allen_computer_1989}.
+To simplify the notation in the following derivations, the periodic boundaries align with the Cartesian axes to form a cuboid of $D$ linear dimensions $L_d$, where the volume, $V$, is given by $V=\prod_d^D L_d$.
+
+The position of each particle is represented by a single vector coordinate $\mathbf{r}$, and all internal and/or orientational coordinates of the particle are represented by a single vector $\boldsymbol{\omega}$.
+A particle may be composed of multiple interaction sites that are mutually bound, flexibly or rigidly or both, and the site-site interactions could be orientationally-dependent (e.g., point dipoles).
+The orientation of a particle might be given implicitly (not part of $\boldsymbol{\omega}$) via the Cartesian coordinates of its interaction sites.
+Alternatively, it may be specified explicitly via an appropriate orientation vector, with the location of the interaction sites (if a multi-site particle) constructed on-the-fly from the position, orientation, and internal coordinates.
+In a 3-dimensional space, the orientation coordinate for a cylindrically-symmetric object requires just two independent values, e.g., a unit  vector describing the cylindrical axis direction.
+For particles with no such symmetry, three independent values are needed to specify the orientation.
+Euler angles are sometimes invoked for this, but they are not particularly useful in the context of molecular simulation.
+A better choice is a quaternion, which is a normalized, four-element vector \cite{vesely_angular_1982, karney_quaternions_2007}.
+
+If the particle is not isotropic or rigid, the derivations in this article leave a placeholder variable for the orientation contributions that are not further detailed and are beyond the scope of this article.

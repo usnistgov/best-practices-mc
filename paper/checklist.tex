@@ -1,0 +1,82 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sec:checklist}Best Practices Checklist for Deriving MC Trial Acceptance}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The checklist to obtain MC trial acceptance probabilities in a way that minimizes the possibility of error is provided on the next page.
+The acceptance probabilities are derived in a step-by-step manner that is closely related to the simulation algorithms.
+By starting from the list of instructions to fully describe a forward and reverse trial, a researcher is able to obtain straightforwardly the required transition probabilities, and identify cases where irreversible changes must be rejected, in a systematic fashion.
+We apply this checklist in subsequent sections to derive a variety of unbiased and biased MC trials in various ensembles.
+This process of generating the needed acceptance probabilities was inspired by and built upon a set of MC lecture notes \cite{kofke_lecture9_2024} and MC ideal gas simulation tests of various theoretically-based ensemble predictions \cite{hatch_theory_2024}.
+
+\begin{Checklists*}[p!]
+\begin{checklist}{Best Practices Checklist for Deriving MC Trial Acceptance}
+%\begin{checklist}{\label{sec:checklist}Best Practices Checklist for Deriving MC Trial Acceptance}
+\begin{itemize}
+\item
+  \textbf{Write the MC trial algorithm as an ordered list of all steps required to fully describe both the forward and reverse trials.}
+
+\item
+  \textbf{Check detailed balance.}
+  \begin{itemize}
+    \item Ensure all forward trial steps transition from the old state to a new state.
+    \item Consider many different cases, including edge cases such as the largest or smallest values.
+    \item Ensure all steps conducted in the reverse trial are capable of returning from the new state to the exact same old state where the forward trial began.
+  \end{itemize}
+
+\item
+  \textbf{Determine if each step is deterministic, stochastic or needs to be broken into multiple steps.}
+  \begin{itemize}
+    \item Stochastic steps may choose a particle, position, volume or model parameter.
+    \item Stochastic steps make one choice from multiple options.
+    \item Stochastic steps often use a random number generator (seeded for reproducibility).
+    \item Deterministic steps make no choices.
+    \item If more than one choice is made in one step, break that step into multiple steps.
+  \end{itemize}
+
+\item
+  \textbf{Determine the probability for each step.}
+  \begin{itemize}
+    \item Determine a probability for choosing a discrete variable (E.g. if the step requires choosing a particle from among $N$ particles, then the probability is $1/N$).
+    \item Determine a probability for choosing a continuous variable (E.g., if the step requires choosing a position in a volume $V$, then the probability is $\diff\mathbf{r}/V$).
+    \item If the step is deterministic, then the probability is 1.
+    \item Determine the forward trial probability, $\alpha_{o \rightarrow n}$, from the old to the new state.
+    \item Determine the reverse trial probability, $\alpha_{n \rightarrow o}$, from the new to the old state.
+    \item Obtain the total probability of the forward trial as the product of the forward probabilities for each step.
+    \item Repeat with the previous step, for the total reverse probability.
+  \end{itemize}
+
+\item
+  \textbf{Determine the ensemble of the trial.}
+  \begin{itemize}
+    \item List all possible variables that could change during each step (Note if the particle positions, number of particles, volume or model parameters change).
+    \item From the list of all variables that could change, determine the ensemble.
+    \item Use $NVT$ ensemble microstate probabilities if only particle positions change.
+    \item Use $NPT$ ensemble microstate probabilities if only particle positions and volume change.
+    \item Use (semi-)$\mu VT$ ensemble microstate probabilities if the number of particles changes.
+    \item Use Gibbs ensemble microstate probabilities if multiple systems are coupled.
+    \item Use Expanded ensemble microstate probabilities if temperature or model parameter change (beyond the scope of this article).
+  \end{itemize}
+
+\item
+  \textbf{Use Eq.~\ref{eq:detailed_balance} to obtain the trial acceptance probability.}
+  \begin{itemize}
+    \item The ensemble of the trial determines the ratio of microstate probabilities.
+    \item The probabilities of each step of the trial implementation determines the ratio of the forward and reverse transition probabilities.
+  \end{itemize}
+
+\item
+  \textbf{Test the implementation of the trial acceptance probability.}
+  \begin{itemize}
+    \item Verify that the acceptance probability leads to simulation results that agree with theory and trusted sources.
+    \item Start with the simplest possible simulations that are fast, such as ideal gases with tractable theoretical expressions.
+  \end{itemize}
+
+\item
+  \textbf{Document your derivation or software implementation for later reference.}
+  \begin{itemize}
+    \item Include documentation and references for future readers (e.g., yourself) to understand the derivation.
+  \end{itemize}
+
+\end{itemize}
+\end{checklist}
+\end{Checklists*}

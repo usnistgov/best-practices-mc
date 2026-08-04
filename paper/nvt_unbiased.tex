@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%A%%%%%%%%%%%%%%
 \section{\label{sec:rhs_nvt}Unbiased canonical ensemble ($NVT$) trials}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -102,11 +102,12 @@ for the Metropolis acceptance of translation trials.
 \lstinputlisting[
 language=Python,
 label={sim:nvt_harmonic},
-caption={MC simulation of a single particle in one dimension attached to a harmonic spring using Python 3, where the statistics module is provided in Section~\ref{sec:block_av}. Note that a random number generator seed of "43279857" is provided so that the simulation is reproducible.}
+caption={MC simulation of a single particle in one dimension attached to a harmonic spring using Python 3. Note that a random number generator seed of "43279857" is provided so that the simulation is reproducible.}
 ]{../codes/nvt_harmonic.py}
 \end{figure}
 
-Code Block~\ref{sim:nvt_harmonic} tests Eq.~\ref{eq:lhs_translate} for a single particle subject to an external harmonic potential centered about the origin in one dimension. The expected average position is the origin.
+Code Block~\ref{sim:nvt_harmonic} tests Eq.~\ref{eq:lhs_translate} for a single particle subject to an external harmonic potential centered about the origin in one dimension.
+The expected average position is the origin.
 Also, according to the equipartition theorem, the expected average energy is $0.5k_BT$.
 
 One major difference between MD and MC is that all particles are moved simultaneously in one MD time step, while typically only a single particle is moved in one MC trial.

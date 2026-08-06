@@ -225,19 +225,28 @@ These analytical expectations are compared against the MC simulation in Fig.~\re
 \lstinputlisting[
 language=Python,
 label={sim:orientation_trials},
-caption={MC simulation of a single rigid body represented by two orthogonal unit vectors in three dimensions implemented in Python 3 using $5\times 10^5$ random angular displacements with $\delta\theta_{max}=\pi/10$. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations (totaling $10^7$ MC trials) to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
+caption={MC simulation of a rigid body of three sites in an external field using Python 3, with a rotation displacement trial about one of the three Cartesian axes. The average of $\cos\theta$ is compared against the Langevin function.}
 ]{../codes/orientation_trials.py}
+\end{figure}
+
+\begin{figure}
+\lstinputlisting[
+language=Python,
+label={sim:orientation_uniform},
+caption={Validation of the rotation displacement trial of Code Block~\ref{sim:orientation_trials} with no field, where every trial is accepted. Angle distributions were computed over $300$ equally-spaced bins with $20$ independent simulations to compare against theoretical expectations with approximately 68 \% of the distribution within one standard deviation.}
+]{../codes/orientation_uniform.py}
 \end{figure}
 
 \begin{figure}
 \begin{centering}
 \includegraphics[width=8.5cm]{../figures/orientation_trials.pdf}
 \caption{
-  The (blue) azimuthal and (red) polar probability distributions of the first vector and (orange) azimuthal angle of the second vector in the reference frame of the first vector from MC simulations described in Code Block~\ref{sim:orientation_trials} with error bars from the standard deviation of the mean of $20$ independent simulations, and analytical expectations shown by the black lines.
+  The (blue) azimuthal and (red) polar probability distributions of the first vector and (orange) azimuthal angle of the second vector in the reference frame of the first vector from MC simulations described in Code Block~\ref{sim:orientation_uniform} with error bars from the standard deviation of the mean of $20$ independent simulations, and analytical expectations shown by the black lines.
 \label{fig:orientation_trials}
 }
 \end{centering}
 \end{figure}
+
 %If desired, generation of orientations from scratch, without perturbing on an existing orientation, is accomplished by random generation of a quaternion \cite{vesely_angular_1982}.
 %An example of randomly picking quaternions, and thus orientations, is shown in Section~\ref{sec:unit_sphere}.
 

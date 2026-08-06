@@ -5,10 +5,8 @@ from rotation import axis_angle
 def azimuth(bonds):
     return np.arctan2(bonds[:, 0, 1], bonds[:, 0, 0])
 
-
 def polar(bonds):
     return np.arccos(bonds[:, 0, 2])
-
 
 def psi(bonds):
     """Azimuthal angle of the second bond in the reference frame
@@ -28,21 +26,17 @@ def psi(bonds):
 
 def uniform_dist(angle): return 0 * angle + 0.5 / np.pi
 
-
 def sine_dist(angle): return 0.5 * np.sin(angle)
-
 
 ANGLES = {"azimuth": (azimuth, uniform_dist, -np.pi),
           "polar": (polar, sine_dist, 0),
           "psi": (psi, uniform_dist, -np.pi)}
-
 
 def histogram(bonds, name, num_bins):
     angle_fn, _, low = ANGLES[name]
     counts, bins = np.histogram(angle_fn(bonds), bins=num_bins,
                                 density=True, range=[low, np.pi])
     return bins[1:] - 0.5 * (bins[1] - bins[0]), counts
-
 
 def percent_within_stdev(mids, counts, dist):
     mean = np.average(counts, axis=0)

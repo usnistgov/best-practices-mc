@@ -22,15 +22,10 @@ for trial_num, _ in enumerate(N1s):
                 if random.random() < V1*N2()/(N1 + 1)/V2():
                     N1 += 1
     else:
-        dV = random.uniform(0, dVmax)
-        if random.choice([1, 2]) == 1:
-            chi = ((V1-dV)/V1)**N1* ((V2()+dV)/V2())**N2()
-            if V1 > dV and random.random() < chi:
-                V1 -= dV
-        else:
-            chi = ((V2()-dV)/V2())**N2()* ((V1+dV)/V1)**N1
-            if V2() > dV and random.random() < chi:
-                V1 += dV
+        dV = dVmax*random.uniform(-1, 1)
+        chi = ((V1+dV)/V1)**N1* ((V2()-dV)/V2())**N2()
+        if V1 > -dV and V2() > dV and random.random() < chi:
+            V1 += dV
     N1s[trial_num] = N1
     V1s[trial_num] = V1
 print("N1/(N1+N2):", block(N1s/N_total))

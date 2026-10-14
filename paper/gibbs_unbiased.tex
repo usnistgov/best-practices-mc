@@ -20,12 +20,18 @@ For particle transfer between domains while holding the volume of each domain fi
 \end{equation}
 where $N_{ni1}$ and $N_{ni2}$ are the number of particles of type $i$ in the first and second domain, respectively, in the new microstate, while $N_{oi1}$ and $N_{oi2}$ are in the old microstate.
 
-For volume transfer between domains while holding the number of particles in each domain fixed, the ratio of microstates in the Gibbs ensemble with volume transfer, the first ratio of Eq.~\ref{eq:detailed_balance}, is given by
+For volume transfer chosen uniformly in $V_1$ between domains while holding the number of particles in each domain fixed, the ratio of microstate probabilities in the Gibbs ensemble with volume transfer, the first ratio of Eq.~\ref{eq:detailed_balance}, is given by
 \begin{equation}
 \frac{\Pi_{n}}{\Pi_{o}} = \left(\frac{V_{n1}}{V_{o1}}\right)^{N_{i1}}\left(\frac{V_{n2}}{V_{o2}}\right)^{N_{i2}}e^{-\beta\Delta (U_1+U_2)},
 \label{eq:rhs_gibbs_volume}
 \end{equation}
 where $V_{n1}$ and $V_{n2}$ are the volume of the first and second domain, respectively, in the new microstate, while $V_{o1}$ and $V_{o2}$ are in the old microstate.
+
+For volume transfer chosen uniformly in $\ln V_1$, substitute $\diff V_1 = V_1 \diff\ln V_1$ into Eq.~\ref{eq:rhs_gibbs_pi}, while retaining $\diff V_2$, to obtain the following ratio of microstate probability ratio,
+\begin{equation}
+\frac{\Pi_{n}}{\Pi_{o}} = \left(\frac{V_{n1}}{V_{o1}}\right)^{N_{i1}+1}\left(\frac{V_{n2}}{V_{o2}}\right)^{N_{i2}}e^{-\beta\Delta (U_1+U_2)}.
+\label{eq:rhs_gibbs_lnv}
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{\label{sec:lhs_gibbs_particle}Gibbs ensemble with particle transfer trials}
@@ -147,13 +153,19 @@ The scaling occurs with $-\Delta V$ for domain $1$, and $+\Delta V$ for domain 2
 \end{center}
 \end{table}
 
-Using the transition probabilities in Table~\ref{tab:lhs_gibbs_volume}, and substituting Eq.~\ref{eq:rhs_gibbs_volume} into Eq.~\ref{eq:detailed_balance}, the acceptance probability for the transfer of volume from domain $1$ to domain $2$ as the forward transition is
+Using the transition probabilities in Table~\ref{tab:lhs_gibbs_volume}, and substituting Eq.~\ref{eq:rhs_gibbs_volume} into Eq.~\ref{eq:detailed_balance}, the acceptance probability for the transfer of volume, chosen uniformly in $V_1$, from domain $1$ to domain $2$ as the forward transition is
 \begin{equation}
 \chi = \left(\frac{V_1-\Delta V}{V_1}\right)^{N_{i1}} \left(\frac{V_2+\Delta V}{V_2}\right)^{N_{i2}}e^{-\beta(\Delta U_1 + \Delta U_2)}.
 \label{eq:gibbs_transfer_v}
 \end{equation}
+If volume changes are instead chosen uniformly in $\ln V_1$, substituting Eq.~\ref{eq:rhs_gibbs_lnv} instead yields
+\begin{equation}
+\chi = \left(\frac{V_1-\Delta V}{V_1}\right)^{N_{i1}+1} \left(\frac{V_2+\Delta V}{V_2}\right)^{N_{i2}}e^{-\beta(\Delta U_1 + \Delta U_2)}.
+\label{eq:gibbs_transfer_lnv}
+\end{equation}
 
-Eq.~\ref{eq:gibbs_transfer_v} is tested in an ideal gas simulation demonstrated in Code Block~\ref{sim:gibbs_volume}, where the densities of the two domains should be equivalent \cite{hatch_theory_2024}.
+
+Eqs.~\ref{eq:gibbs_transfer_v} and \ref{eq:gibbs_transfer_lnv} are tested in an ideal gas simulation demonstrated in Code Block~\ref{sim:gibbs_volume}, where the densities of the two domains should be equivalent \cite{hatch_theory_2024}.
 
 \begin{figure}
 \lstinputlisting[
